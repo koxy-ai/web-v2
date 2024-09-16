@@ -2,7 +2,14 @@ import type { Config } from "tailwindcss";
 
 const { nextui } = require("@nextui-org/react");
 const svgToDataUri = require("mini-svg-data-uri");
-import { palettes, rounded, shade, components, animations } from "@tailus/themer";
+import {
+  palettes,
+  rounded,
+  shade,
+  components,
+  animations,
+  grays,
+} from "@tailus/themer";
 
 const colors = require("tailwindcss/colors");
 const {
@@ -74,7 +81,8 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        ...(palettes.energy as any),
+        ...(palettes.trust as any),
+        gray: grays.neutral
       },
       borderRadius: {
         lg: "var(--radius)",

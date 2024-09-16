@@ -16,7 +16,7 @@ export default function NewTeam({ keepOpen }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={!keepOpen ? setOpen : () => {}}>
-      <KoxyDialogContent close={false} dialogTitle="new team">
+      <KoxyDialogContent close={!keepOpen} dialogTitle="new team">
         Hello
       </KoxyDialogContent>
     </Dialog>

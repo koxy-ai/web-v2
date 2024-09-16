@@ -68,6 +68,18 @@
     --area-accent-stroke: theme(colors.accent.600);
     --area-gray-stroke: theme(colors.gray.600);
     --area-neutral-stroke: theme(colors.gray.950);
+
+    /* --colors-gray-50: var(--colors-neutral-50);
+    --colors-gray-100: var(--colors-neutral-100);
+    --colors-gray-200: var(--colors-neutral-200);
+    --colors-gray-300: var(--colors-neutral-300);
+    --colors-gray-400: var(--colors-neutral-400);
+    --colors-gray-500: var(--colors-neutral-500);
+    --colors-gray-600: var(--colors-neutral-600);
+    --colors-gray-700: var(--colors-neutral-700);
+    --colors-gray-800: var(--colors-neutral-800);
+    --colors-gray-900: var(--colors-neutral-900);
+    --colors-gray-950: var(--colors-neutral-950); */
   }
 }
 
@@ -76,9 +88,9 @@
     @apply border-border;
   }
 
-  body {
+  /* body {
     @apply bg-background text-foreground;
-  }
+  } */
 }
 
 

@@ -17,8 +17,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={cn("min-h-screen dark", inter.className)}>
+    <html lang="en" className="dark" data-palette="tls">
+      <body
+        className={cn(
+          "min-h-screen dark:bg-gray-92 dark:lg:bg-gray-92/70 font-sans antialiased leading-normal [--btn-radius:theme(borderRadius.lg)] [--ui-border-color:theme(colors.gray.800)] selection:bg-info-600 selection:text-white selection:bg-info-900 selection:text-info-200 lg:before:fixed lg:before:inset-0 lg:before:-z-40 lg:before:[background-image:url('/grainy-bg.svg')] lg:before:opacity-[0.015]",
+          inter.className
+        )}
+      >
         {children}
         <Toaster />
       </body>

@@ -11,7 +11,7 @@ export default async function Page() {
   });
 
   if (members.length < 1) {
-    return <NewTeam keepOpen />;
+    return <NewTeam keepOpen={false} />;
   }
 
   const teams = await db.team.findMany({

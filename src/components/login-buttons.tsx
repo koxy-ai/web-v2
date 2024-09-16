@@ -1,10 +1,11 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { Button } from "@nextui-org/react";
+import Button from "@tailus-ui/Button";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import LoadingIcon from "./tailus-ui/Loading";
 
 interface Props {
   callbackUrl?: string;
@@ -17,6 +18,7 @@ export default function LoginButtons({ callbackUrl }: Props) {
   });
 
   const getLoading = (provider: "google" | "github") => loading[provider];
+  const isLoading = () => loading["google"] || loading["github"];
 
   const continueSignin = async (provider: "google" | "github") => {
     setLoading({ ...loading, [provider]: true });
@@ -31,18 +33,42 @@ export default function LoginButtons({ callbackUrl }: Props) {
 
   return (
     <div className="flex flex-col gap-4 md:w-[80%]">
-      <Button
-        className="w-full font-semibold"
+      <Button.Root
+        className="w-full text-sm border"
+        intent="neutral"
         size="md"
-        variant="solid"
         color="primary"
-        startContent={<IconBrandGoogle />}
-        isLoading={getLoading("google")}
-        onPress={() => continueSignin("google")}
+        disabled={getLoading("google")}
+        onClick={() => {
+          if (!isLoading()) continueSignin("google");
+        }}
       >
-        Continue with Google
-      </Button>
-      <Button
+        <Button.Icon>
+          {getLoading("google") ? <LoadingIcon /> : <IconBrandGoogle size={20} />}
+        </Button.Icon>
+        <Button.Label>
+          Continue with Google
+        </Button.Label>
+      </Button.Root>
+
+      <Button.Root
+        className="w-full text-sm"
+        intent="gray"
+        size="md"
+        variant="outlined"
+        disabled={getLoading("github")}
+        onClick={() => {
+          if (!isLoading()) continueSignin("github");
+        }}
+      >
+        <Button.Icon>
+          {getLoading("github") ? <LoadingIcon /> : <IconBrandGithub size={20} />}
+        </Button.Icon>
+        <Button.Label>
+          Continue with Github
+        </Button.Label>
+      </Button.Root>
+      {/* <Button.Root
         className="w-full border dark:border-white/20 font-semibold"
         size="md"
         variant="light"
@@ -51,7 +77,7 @@ export default function LoginButtons({ callbackUrl }: Props) {
         onPress={() => continueSignin("github")}
       >
         Continue with Github
-      </Button>
+      </Button.Root> */}
     </div>
   );
 }
