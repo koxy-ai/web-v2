@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 
 const { nextui } = require("@nextui-org/react");
 const svgToDataUri = require("mini-svg-data-uri");
+import { palettes, rounded, shade, components, animations } from "@tailus/themer";
 
 const colors = require("tailwindcss/colors");
 const {
@@ -27,6 +28,7 @@ const config = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@tailus/themer/dist/components/**/*.{js,ts}",
   ],
   prefix: "",
   theme: {
@@ -72,6 +74,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        ...(palettes.energy as any),
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -95,6 +98,10 @@ const config = {
     },
   },
   plugins: [
+    rounded,
+    shade,
+    components,
+    animations,
     require("tailwindcss-animate"),
     addVariablesForColors,
     function ({ matchUtilities, theme }: any) {

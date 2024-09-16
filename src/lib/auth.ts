@@ -36,16 +36,6 @@ export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider(getCred("google")),
     GithubProvider(getCred("github")),
-    CredentialsProvider({
-      credentials: {
-        id: { type: "text" },
-      },
-      authorize: async (creds, req) => {
-        const user = await db.user.findFirst({ where: { id: creds?.id } });
-
-        return user ?? null;
-      },
-    }),
   ],
 
   callbacks: {
@@ -65,6 +55,7 @@ export const authOptions: NextAuthOptions = {
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
+          id: token.id,
         },
       });
 

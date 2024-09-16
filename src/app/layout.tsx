@@ -18,12 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background antialiased dark",
-          inter.className
-        )}
-      >
+      <body className={cn("min-h-screen dark", inter.className)}>
         {children}
         <Toaster />
       </body>

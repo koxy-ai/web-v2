@@ -45,6 +45,7 @@ model User {
   sessions      Session[]
   teams         String    @default("[]")
   members       Member[]
+  Invite        Invite[]
 }
 
 model Member {
@@ -57,15 +58,38 @@ model Member {
 }
 
 model Team {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   uniqueName String
   name       String
   avatar     String?
   members    Member[]
-  tier       Int      @default(0)
-  credits    Int      @default(1)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  tier       Int       @default(0)
+  credits    Int       @default(1)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  projects   Project[]
+  Invite     Invite[]
 
   @@unique([uniqueName])
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  teamId    String
+  name      String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Invite {
+  id        String   @id @default(cuid())
+  at        DateTime @default(now())
+  teamId    String
+  userEmail String
+  state     String
+  role      String
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 }

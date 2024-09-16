@@ -33,7 +33,7 @@
   }
 
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 0 0% 7%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
@@ -57,6 +57,17 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    --display-text-color: theme(colors.white);
+    --title-text-color: var(--display-text-color);
+    --caption-text-color: theme(colors.gray.500);
+    --body-text-color: theme(colors.gray.300);
+    --placeholder-text-color: theme(colors.gray.600);
+    --area-primary-stroke: theme(colors.primary.600);
+    --area-secondary-stroke: theme(colors.secondary.600);
+    --area-accent-stroke: theme(colors.accent.600);
+    --area-gray-stroke: theme(colors.gray.600);
+    --area-neutral-stroke: theme(colors.gray.950);
   }
 }
 
@@ -64,6 +75,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -72,7 +84,7 @@
 
 /* Backgrounds */
 
-.dots1 { 
+.dots1 {
   width: 100%;
   height: 100%;
   background-size: cover;
