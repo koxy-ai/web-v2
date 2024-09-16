@@ -5,7 +5,7 @@ import Button from "@tailus-ui/Button";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import LoadingIcon from "./tailus-ui/Loading";
+import LoadingIcon from "@tailus-ui/Loading";
 
 interface Props {
   callbackUrl?: string;

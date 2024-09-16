@@ -11,7 +11,9 @@ export default async function Page() {
   });
 
   if (members.length < 1) {
-    return <NewTeam keepOpen={false} />;
+    return <div className="dark">
+      <NewTeam keepOpen session={session} />
+    </div>;
   }
 
   const teams = await db.team.findMany({

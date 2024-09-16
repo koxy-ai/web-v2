@@ -5,34 +5,6 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
-
-  .dark {
     --background: 0 0% 7%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
@@ -63,23 +35,26 @@
     --caption-text-color: theme(colors.gray.500);
     --body-text-color: theme(colors.gray.300);
     --placeholder-text-color: theme(colors.gray.600);
-    --area-primary-stroke: theme(colors.primary.600);
+
+    --input-primary-stroke: var(--colors-purple-50);
+
+    --area-primary-stroke: theme(colors.gray.600);
     --area-secondary-stroke: theme(colors.secondary.600);
     --area-accent-stroke: theme(colors.accent.600);
     --area-gray-stroke: theme(colors.gray.600);
     --area-neutral-stroke: theme(colors.gray.950);
 
-    /* --colors-gray-50: var(--colors-neutral-50);
-    --colors-gray-100: var(--colors-neutral-100);
-    --colors-gray-200: var(--colors-neutral-200);
-    --colors-gray-300: var(--colors-neutral-300);
-    --colors-gray-400: var(--colors-neutral-400);
-    --colors-gray-500: var(--colors-neutral-500);
-    --colors-gray-600: var(--colors-neutral-600);
-    --colors-gray-700: var(--colors-neutral-700);
-    --colors-gray-800: var(--colors-neutral-800);
-    --colors-gray-900: var(--colors-neutral-900);
-    --colors-gray-950: var(--colors-neutral-950); */
+    --colors-primary-50: var(--colors-purple-50);
+    --colors-primary-100: var(--colors-purple-100);
+    --colors-primary-200: var(--colors-purple-200);
+    --colors-primary-300: var(--colors-purple-300);
+    --colors-primary-400: var(--colors-purple-400);
+    --colors-primary-500: var(--colors-purple-500);
+    --colors-primary-600: var(--colors-purple-600);
+    --colors-primary-700: var(--colors-purple-700);
+    --colors-primary-800: var(--colors-purple-800);
+    --colors-primary-900: var(--colors-purple-900);
+    --colors-primary-950: var(--colors-purple-950);
   }
 }
 

@@ -28,7 +28,7 @@ function addVariablesForColors({ addBase, theme }: any) {
 }
 
 const config = {
-  darkMode: ["class"],
+  darkMode: "selector",
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -49,45 +49,9 @@ const config = {
     extend: {
       colors: {
         border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
+        
         ...(palettes.trust as any),
-        gray: grays.neutral
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        gray: grays.neutral,
       },
       keyframes: {
         "accordion-down": {
@@ -140,18 +104,18 @@ const config = {
     nextui({
       themes: {
         dark: {
-          colors: {
-            border: "hsl(0 0% 14.9%)",
-            input: "hsl(0 0% 14.9%)",
-            ring: "hsl(0 0% 83.1%)",
-            background: "hsl(0 0% 3.9%)",
-            default: {
-              DEFAULT: "hsl(0 0% 14.9%)",
-              foreground: "hsl(0 0% 99%)",
-            },
-            primary: "hsl(0 0% 98%)",
-            secondary: "hsl(0 0% 14.9%)",
-          },
+          // colors: {
+          //   border: "hsl(0 0% 14.9%)",
+          //   input: "hsl(0 0% 14.9%)",
+          //   ring: "hsl(0 0% 83.1%)",
+          //   background: "hsl(0 0% 3.9%)",
+          //   default: {
+          //     DEFAULT: "hsl(0 0% 14.9%)",
+          //     foreground: "hsl(0 0% 99%)",
+          //   },
+          //   primary: "hsl(0 0% 98%)",
+          //   secondary: "hsl(0 0% 14.9%)",
+          // },
         },
       },
     }),
