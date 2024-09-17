@@ -9,6 +9,9 @@ import Button from "./tailus-ui/Button";
 import { IconChevronRight } from "@tabler/icons-react";
 import { Caption } from "./tailus-ui/typography";
 import { Session } from "next-auth";
+import createTeam from "@/functions/team/creat";
+import { toast } from "sonner";
+import LoadingIcon from "./tailus-ui/Loading";
 
 interface Props {
   session: Session;
@@ -19,6 +22,7 @@ export default function NewTeam({ session, keepOpen }: Props) {
   const [open, setOpen] = useState<boolean>(keepOpen ?? false);
   const [name, setName] = useState<string>("");
   const [url, setUrl] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
   const cleanUrl = (value: string) => {
     return value.replace(/[^a-zA-Z0-9-]/g, "-").toLowerCase();
@@ -32,6 +36,20 @@ export default function NewTeam({ session, keepOpen }: Props) {
     setName(`${session.user.name}'s team`);
     setUrl(cleanUrl(`${session.user.name}'s team`));
   }, []);
+
+  const submit = async () => {
+    if (loading) return;
+
+    try {
+      setLoading(true);
+      const res = await createTeam(name, url);
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <Dialog.Root open={open} onOpenChange={!keepOpen ? setOpen : () => {}}>
@@ -82,7 +100,7 @@ export default function NewTeam({ session, keepOpen }: Props) {
                 value={url}
                 onInput={(e) => setUrl(e.currentTarget.value)}
               />
-              <Caption>koxy.cloud/{url}</Caption>
+              <Caption>koxy.cloud/app/{url}</Caption>
             </div>
           </div>
 
@@ -99,8 +117,15 @@ export default function NewTeam({ session, keepOpen }: Props) {
               intent="secondary"
               size="sm"
               className="border"
+              onClick={submit}
+              disabled={loading}
             >
               <Button.Label className="text-sm">Create new team</Button.Label>
+              {loading && (
+                <Button.Icon>
+                  <LoadingIcon />
+                </Button.Icon>
+              )}
               <Button.Icon type="trailing">
                 <IconChevronRight />
               </Button.Icon>

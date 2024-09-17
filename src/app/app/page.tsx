@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import NewTeam from "@/components/new-team";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import UserNavbar from "@/components/user/Navbar";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions))!;
@@ -13,6 +14,8 @@ export default async function Page() {
   if (members.length < 1) {
     return <div className="dark">
       <NewTeam keepOpen session={session} />
+      <UserNavbar session={session} />
+      Hello
     </div>;
   }
 
