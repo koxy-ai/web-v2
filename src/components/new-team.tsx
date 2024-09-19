@@ -9,16 +9,17 @@ import Button from "./tailus-ui/Button";
 import { IconChevronRight } from "@tabler/icons-react";
 import { Caption } from "./tailus-ui/typography";
 import { Session } from "next-auth";
-import createTeam from "@/functions/team/creat";
+import createTeam from "@/functions/team/create";
 import { toast } from "sonner";
 import LoadingIcon from "./tailus-ui/Loading";
 
 interface Props {
   session: Session;
   keepOpen?: boolean;
+  children?: React.ReactNode;
 }
 
-export default function NewTeam({ session, keepOpen }: Props) {
+export default function NewTeam({ session, keepOpen, children }: Props) {
   const [open, setOpen] = useState<boolean>(keepOpen ?? false);
   const [name, setName] = useState<string>("");
   const [url, setUrl] = useState<string>("");
@@ -43,6 +44,14 @@ export default function NewTeam({ session, keepOpen }: Props) {
     try {
       setLoading(true);
       const res = await createTeam(name, url);
+
+      if (res?.success === false) {
+        toast.error(res.error);
+        return;
+      }
+
+      toast.success("Team created!");
+      setOpen(false);
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong!");
@@ -52,9 +61,16 @@ export default function NewTeam({ session, keepOpen }: Props) {
   }
 
   return (
-    <Dialog.Root open={open} onOpenChange={!keepOpen ? setOpen : () => {}}>
+    <Dialog.Root open={open} onOpenChange={!keepOpen && !loading ? setOpen : () => {}}>
+      {children && (
+        <Dialog.Trigger asChild>
+          <div onClick={() => setOpen(prev => !prev)}>
+            {children}
+          </div>
+        </Dialog.Trigger>
+      )}
       <Dialog.Portal>
-        <Dialog.Overlay className="z-40 bg-black/40" />
+        <Dialog.Overlay className="z-50 bg-black/40 backdrop-blur" />
         <Dialog.Content
           className="z-50 max-w-lg border-1 border-border/50 outline-none"
           data-shade="950"
@@ -98,7 +114,7 @@ export default function NewTeam({ session, keepOpen }: Props) {
                 className="outline-none bg-gray-900/20 border border/border/60 focus:border-border"
                 placeholder="Unique team path or url"
                 value={url}
-                onInput={(e) => setUrl(e.currentTarget.value)}
+                onInput={(e) => setUrl(cleanUrl(e.currentTarget.value))}
               />
               <Caption>koxy.cloud/app/{url}</Caption>
             </div>

@@ -15,7 +15,7 @@ export default async function Page() {
     <div className="w-full h-screen flex fixed top-0 left-0">
       {/* <Navbar links={[{ name: "Connect account", href: "/login" }]} /> */}
       <LoginSide />
-      <div className="min-w-[50%] max-w-[50%] h-full p-6 flex flex-col items-center justify-center gap-3 text-center rounded-l-2xl border-1">
+      <div className="min-w-[50%] max-w-[50%] h-full p-6 flex flex-col items-center justify-center gap-3 text-center rounded-l-2xl border-1 border-r-0 relative before:absolute before:inset-0 before:-z-40 before:[background-image:url('/grainy-bg.svg')] before:opacity-[0.020]">
         <Title>Welcome to Koxy AI</Title>
         <p className="text-sm opacity-70 mb-12">
           The future of Serverless AI-powered development
