@@ -1,13 +1,13 @@
 "use client";
 
-import { Member, Team, User } from "@prisma/client";
+import { Invite, Member, Team, User } from "@prisma/client";
 import { Session } from "next-auth";
 import Button from "../tailus-ui/Button";
 import Input from "../tailus-ui/Input";
 import Avatar from "@tailus-ui/Avatar";
 import Dropdown from "@tailus-ui/DropdownMenu";
 import { useState } from "react";
-import { IconDots } from "@tabler/icons-react";
+import { IconChevronDown, IconDots } from "@tabler/icons-react";
 import MemberItem from "./member-item";
 import { getLimit } from "@/utils/plan";
 import { getTier } from "@/utils/team-tiers";
@@ -18,10 +18,20 @@ interface Props {
   team: Team;
   members: User[];
   roles: Member[];
+  invites: Invite[];
 }
 
-export default function TeamMembers({ session, team, members, roles }: Props) {
+export default function TeamMembers({
+  session,
+  team,
+  members,
+  roles,
+  invites,
+}: Props) {
   const [membersState, setMembersState] = useState(members);
+  const [invitesState, setInvitesState] = useState(
+    invites.filter((i) => i.state === "pending")
+  );
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value.toLowerCase();
@@ -36,10 +46,23 @@ export default function TeamMembers({ session, team, members, roles }: Props) {
   return (
     <>
       <div className="flex items-center gap-3">
-        <AddMember team={team}>
+        <Input
+          size="sm"
+          className="w-64 text-xs focus:outline-transparent focus:border-white/20"
+          data-shade="925"
+          placeholder="Search team members"
+          onInput={handleSearch}
+        />
+        <div className="w-full"></div>
+        <AddMember
+          team={team}
+          pushInvite={(i) => {
+            setInvitesState([...invitesState, i]);
+          }}
+        >
           <Button.Root
             intent="secondary"
-            size="sm"
+            size="xs"
             className="border"
             disabled={
               // getLimit(team.tier, "members") <= roles.length ||
@@ -51,13 +74,6 @@ export default function TeamMembers({ session, team, members, roles }: Props) {
             </Button.Label>
           </Button.Root>
         </AddMember>
-        <Input
-          size="sm"
-          className="w-64 text-xs focus:outline-transparent focus:border-white/20"
-          data-shade="925"
-          placeholder="Search team members"
-          onInput={handleSearch}
-        />
       </div>
       <div className="p-3 px-6 rounded-xl bg-gray-900/60 flex items-center gap-3 text-xs">
         <div className="w-full">Account</div>
@@ -78,6 +94,40 @@ export default function TeamMembers({ session, team, members, roles }: Props) {
           />
         ))}
       </div>
+      {invitesState.length > 0 && (
+        <Dropdown.Root>
+          <Dropdown.Trigger asChild>
+            <Button.Root size="xs" variant="ghost" intent="warning" className="border border-dashed border-yellow-400/70">
+              <Button.Label className="text-xs">
+                {invitesState.length} pending invitations
+              </Button.Label>
+              <Button.Icon type="trailing">
+                <IconChevronDown size={16} />
+              </Button.Icon>
+            </Button.Root>
+          </Dropdown.Trigger>
+          <Dropdown.Portal>
+            <Dropdown.Content
+              mixed
+              className="z-50 outline-none transition-all"
+              data-shade="925"
+              intent="gray"
+              variant="soft"
+              sideOffset={5}
+            >
+                {invitesState.map((invite) => (
+                  <Dropdown.Item
+                    key={`invite-${invite.id}`}
+                    intent="gray"
+                    className="items-center text-xs"
+                  >
+                    {invite.userEmail}
+                  </Dropdown.Item>
+                ))}
+            </Dropdown.Content>
+          </Dropdown.Portal>
+        </Dropdown.Root>
+      )}
     </>
   );
 }

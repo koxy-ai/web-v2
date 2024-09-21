@@ -80,12 +80,13 @@ export default function MemberItem({
           <Dropdown.Content
             sideOffset={5}
             mixed
-            className="z-30 p-2"
+            className="z-30 p-1"
             data-shade="950"
           >
             {currentMember.userId !== user.id ? (
               <Dropdown.Item
                 intent="danger"
+                className="text-xs"
                 disabled={
                   role === "OWNER" || canManage(currentMember.role, role)
                 }
@@ -95,10 +96,11 @@ export default function MemberItem({
             ) : (
               <Dropdown.Item
                 intent="danger"
+                className="text-xs"
                 onClick={() => setDeleteOpen(true)}
-                // disabled={
-                //   role === "OWNER" || canManage(currentMember.role, role)
-                // }
+                disabled={
+                  role === "OWNER" || canManage(currentMember.role, role)
+                }
               >
                 Leave team
               </Dropdown.Item>

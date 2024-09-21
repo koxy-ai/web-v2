@@ -3,25 +3,34 @@ import { getServerSession } from "next-auth";
 import NewTeam from "@/components/new-team";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import UserNavbar from "@/components/user/Navbar";
+import PageClient from "./page.client";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions))!;
-  const members = await db.member.findMany({
-    where: { userId: session.user.id },
-  });
+  const [members, invites] = await Promise.all([
+    db.member.findMany({
+      where: { userId: session.user.id },
+    }),
+    db.invite.findMany({
+      where: { userEmail: session.user.email!, state: "pending" },
+    }),
+  ]);
 
-  if (members.length < 1) {
-    return <div className="dark">
-      <NewTeam keepOpen session={session} />
-      <UserNavbar session={session} />
-      Hello
-    </div>;
+  if (members.length < 1 && invites.length < 1) {
+    return <NewTeam session={session} keepOpen />;
   }
 
-  const teams = await db.team.findMany({
-    where: { id: { in: members.map((m) => m.teamId) } },
-  });
+  if (members.length < 1) {
+    return (
+      <PageClient session={session} invites={invites} />
+    );
+  }
+
+  const [teams] = await Promise.all([
+    db.team.findMany({
+      where: { id: { in: members.map((m) => m.teamId) } },
+    }),
+  ]);
 
   const latestTeam = teams.sort(
     (a, b) => b.createdAt.getTime() - a.createdAt.getTime()

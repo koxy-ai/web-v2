@@ -1,7 +1,7 @@
 "use client";
 
 import { getLimit } from "@/utils/plan";
-import { Team, Member, Project, User } from "@prisma/client";
+import { Team, Member, Project, User, Invite } from "@prisma/client";
 import {
   IconBox,
   IconChartBar,
@@ -22,6 +22,7 @@ interface Props {
   teamMembers: Member[];
   projects: Project[];
   teamUsers: User[];
+  invites: Invite[];
 }
 
 export default function TeamHead({
@@ -31,6 +32,7 @@ export default function TeamHead({
   projects,
   teamMembers,
   teamUsers,
+  invites
 }: Props) {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -61,6 +63,7 @@ export default function TeamHead({
           team={team}
           members={teamUsers}
           roles={teamMembers}
+          invites={invites}
         />
       ),
       description: `${teamMembers.length}/${getLimit(

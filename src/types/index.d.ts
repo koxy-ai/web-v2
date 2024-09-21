@@ -3,9 +3,9 @@ interface FailedFuncResponse {
     error: string;
 }
 
-interface SuccessFuncResponse {
+interface SuccessFuncResponse<T = any> {
     success: true;
-    data: any;
+    data: T;
 }
 
-type FuncResponse = FailedFuncResponse | SuccessFuncResponse;
+type FuncResponse<T = any> = FailedFuncResponse | SuccessFuncResponse<T>;

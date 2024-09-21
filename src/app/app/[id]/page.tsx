@@ -31,7 +31,7 @@ export default async function Page({ params: { id } }: Props) {
     return redirect("/app");
   }
 
-  const [teams, members, projects, teamMembers] = await Promise.all([
+  const [teams, members, projects, teamMembers, invites, userInvites] = await Promise.all([
     db.team.findMany({
       where: { members: { some: { userId: session.user.id } } },
     }),
@@ -43,6 +43,12 @@ export default async function Page({ params: { id } }: Props) {
     }),
     db.member.findMany({
       where: { teamId: team.id },
+    }),
+    db.invite.findMany({
+      where: { teamId: team.id },
+    }),
+    db.invite.findMany({
+      where: { userEmail: session.user.email!, state: "pending" },
     }),
   ]);
 
@@ -61,6 +67,7 @@ export default async function Page({ params: { id } }: Props) {
         currentTeam={id}
         members={members}
         teams={teams}
+        invites={userInvites}
       />
 
       <TeamHead
@@ -70,6 +77,7 @@ export default async function Page({ params: { id } }: Props) {
         projects={projects}
         teamMembers={teamMembers}
         teamUsers={teamUsers as User[]}
+        invites={invites}
       />
     </>
   );

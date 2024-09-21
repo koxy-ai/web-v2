@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {
+  IconBell,
   IconBook,
   IconCheck,
   IconChevronDown,
@@ -12,22 +13,31 @@ import {
   IconSettings,
   IconSlash,
   IconTicket,
+  IconTrash,
   IconUsersGroup,
+  IconZzz,
 } from "@tabler/icons-react";
 import { Session } from "next-auth";
 import Avatar from "./tailus-ui/Avatar";
 import Dropdown from "./tailus-ui/DropdownMenu";
 import SeparatorRoot from "./tailus-ui/Seperator";
-import { Member, Team } from "@prisma/client";
+import { Invite, Member, Team } from "@prisma/client";
 import NewTeam from "./new-team";
 import { signOut } from "next-auth/react";
 import Button from "./tailus-ui/Button";
+import { Title } from "./tailus-ui/typography";
+import LoadingIcon from "./tailus-ui/Loading";
+import addMember from "@/functions/team/add-member";
+import { useState } from "react";
+import { toast } from "sonner";
+import ignoreInvite from "@/functions/team/ignore-invite";
 
 interface Props {
   session: Session;
   currentTeam: string;
   members: Member[];
   teams: Team[];
+  invites: Invite[];
 }
 
 export default function Navbar({
@@ -35,8 +45,53 @@ export default function Navbar({
   currentTeam,
   members,
   teams,
+  invites,
 }: Props) {
   const openTeam = teams.find((t) => t.uniqueName === currentTeam)!;
+  const [loading, setLoading] = useState(false);
+
+  const join = async (id: string) => {
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      const res = await addMember(id);
+
+      if (res?.success === false) {
+        toast.error(res.error);
+      } else {
+        toast.success("You have joined the team");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("An error occurred while joining the team");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const ignore = async (id: string) => {
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      const res = await ignoreInvite(id);
+
+      if (res?.success === false) {
+        toast.error(res.error);
+      } else {
+        toast.success("You ignored the invite");
+        location.href = location.href;
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("An error occurred while ignoring the invite");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full flex items-center z-30 bg-background border-b-1 border-border/50 h-14 px-6 before:fixed before:inset-0 before:-z-40 before:[background-image:url('/grainy-bg.svg')] before:opacity-[0.030] before:h-14">
@@ -146,7 +201,110 @@ export default function Navbar({
 
       <div className="w-full flex items-center justify-end gap-3">
         <Dropdown.Root>
-          <Dropdown.Trigger className="outline-none">
+          <Dropdown.Trigger asChild>
+            <Button.Root
+              size="sm"
+              variant="ghost"
+              intent="gray"
+              className="relative"
+            >
+              <Button.Icon type="only">
+                <IconBell size={16} />
+              </Button.Icon>
+              {invites.length > 0 && (
+                <div
+                  className="w-1.5 h-1.5 rounded-full bg-green-400 absolute top-2 right-2.5"
+                  style={{
+                    boxShadow: "0px 0px 4px 0px #4ade80",
+                  }}
+                />
+              )}
+            </Button.Root>
+          </Dropdown.Trigger>
+          <Dropdown.Portal>
+            <Dropdown.Content
+              sideOffset={0}
+              mixed
+              className="z-30 p-5 overflow-visible text-sm min-w-72 flex flex-col"
+              data-shade="950"
+              side="bottom"
+            >
+              <Title className="text-sm mb-1">Notifications</Title>
+              <div className="text-xs opacity-70">
+                {invites.length > 0
+                  ? `You have ${invites.length} pending invitations`
+                  : "You have invitations"}
+              </div>
+              <SeparatorRoot dashed className="my-3" />
+              {invites.length > 0 ? (
+                <>
+                  {invites.map((inv) => (
+                    <div
+                      key={`invite-${inv.id}`}
+                      className="py-3 max-w-72 border-b-1 border-border/60 flex flex-col gap-2 text-xs"
+                    >
+                      <div>
+                        {"You're"} Invited to work as{" "}
+                        <b>{inv.role.toLowerCase()}</b> in {inv.teamName}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button.Root
+                          size="xs"
+                          intent="gray"
+                          variant="outlined"
+                          className="max-w-max mt-2"
+                          disabled={loading}
+                          onClick={() => join(inv.id)}
+                        >
+                          <Button.Label className="text-xs">
+                            Join team
+                          </Button.Label>
+                          <Button.Icon type="trailing">
+                            <IconChevronRight size={14} />
+                          </Button.Icon>
+                          {loading && (
+                            <Button.Icon>
+                              <LoadingIcon />
+                            </Button.Icon>
+                          )}
+                        </Button.Root>
+                        <Button.Root
+                          size="xs"
+                          intent="danger"
+                          variant="ghost"
+                          className="max-w-max mt-2"
+                          disabled={loading}
+                          onClick={() => ignore(inv.id)}
+                        >
+                          <Button.Icon type="leading">
+                            <IconTrash size={12} />
+                          </Button.Icon>
+                          {loading && (
+                            <Button.Icon>
+                              <LoadingIcon />
+                            </Button.Icon>
+                          )}
+                          <Button.Label className="text-xs">
+                            Ignore
+                          </Button.Label>
+                        </Button.Root>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <div className="w-[100%] py-14 flex items-center justify-center">
+                  <IconZzz size={25} />
+                </div>
+              )}
+            </Dropdown.Content>
+          </Dropdown.Portal>
+        </Dropdown.Root>
+
+        <SeparatorRoot orientation="vertical" className="h-5" />
+
+        <Dropdown.Root>
+          <Dropdown.Trigger asChild>
             <Button.Root size="sm" variant="ghost" intent="gray">
               <Button.Icon type="only">
                 <IconHelp size={16} />

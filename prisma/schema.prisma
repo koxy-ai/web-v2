@@ -45,7 +45,6 @@ model User {
   sessions      Session[]
   teams         String    @default("[]")
   members       Member[]
-  Invite        Invite[]
 }
 
 model Member {
@@ -87,9 +86,9 @@ model Invite {
   id        String   @id @default(cuid())
   at        DateTime @default(now())
   teamId    String
+  teamName  String
   userEmail String
   state     String
   role      String
   team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 }
