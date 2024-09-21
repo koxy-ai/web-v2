@@ -10,7 +10,7 @@ export interface FormLabelProps
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & FormLabelProps
->(({ className, size = "md", ...props }, forwardedRef) => {
+>(function Label({ className, size = "md", ...props }, forwardedRef) {
   const { label } = form();
 
   return (

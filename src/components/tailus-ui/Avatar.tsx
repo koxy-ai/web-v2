@@ -12,7 +12,7 @@ const AvatarRoot = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> & AvatarRootProps
 >(
-  (
+  function AvatarRoot(
     {
       className,
       size = "md",
@@ -22,7 +22,7 @@ const AvatarRoot = React.forwardRef<
       ...props
     },
     ref
-  ) => {
+  ) {
     return (
       <AvatarPrimitive.Root
         {...props}
@@ -43,7 +43,7 @@ const AvatarFallback = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Fallback>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback> &
     AvatarFallbackProps
->(({ className, variant = "solid", intent = "primary", ...props }, ref) => {
+>(function AvatarFallback({ className, variant = "solid", intent = "primary", ...props }, ref) {
   return (
     <AvatarPrimitive.Fallback
       {...props}
@@ -56,7 +56,7 @@ const AvatarFallback = React.forwardRef<
 const AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
->(({ className, ...props }, ref) => {
+>(function AvatarImage({ className, ...props }, ref) {
   return (
     <AvatarPrimitive.Image
       {...props}

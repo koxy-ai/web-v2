@@ -1,10 +1,9 @@
-import Navbar from "@/components/navbar";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import LoginButtons from "@/components/login-buttons";
 import LoginSide from "@/components/login-side";
-import { Title, Text } from "@tailus-ui/typography";
+import { Title } from "@tailus-ui/typography";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -13,7 +12,6 @@ export default async function Page() {
 
   return (
     <div className="w-full h-screen flex fixed top-0 left-0">
-      {/* <Navbar links={[{ name: "Connect account", href: "/login" }]} /> */}
       <LoginSide />
       <div className="min-w-[50%] max-w-[50%] h-full p-6 flex flex-col items-center justify-center gap-3 text-center rounded-l-2xl border-1 border-r-0 relative before:absolute before:inset-0 before:-z-40 before:[background-image:url('/grainy-bg.svg')] before:opacity-[0.020]">
         <Title>Welcome to Koxy AI</Title>

@@ -77,9 +77,10 @@ model Project {
   id        String   @id @default(cuid())
   teamId    String
   name      String
-  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  api       String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model Invite {
@@ -89,7 +90,6 @@ model Invite {
   userEmail String
   state     String
   role      String
-
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 }
