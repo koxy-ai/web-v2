@@ -1,186 +1,151 @@
-// just placeholders (remove in real-world app)
-namespace React {
-  export interface ReactNode {}
+interface RetryOnFail {
+  type: "retry";
+  max: number;
+  interval: number;
+  continue: boolean;
 }
 
-interface Schema {}
-
-// accounts & teams
-
-type Role = "developer" | "admin" | "owner" | "analytics";
-
-interface Invitation {
-  teamId: string;
-  teamName: string;
-  role: Role;
+interface TerminateOnFail {
+  type: "terminate";
 }
 
-interface Member {
-  name: string;
-  avatar?: string;
-  teamId: string;
-  role: string;
+interface IgnoreOnFail {
+  type: "ignore";
 }
 
-interface User {
-  // all the basic info
-  teams: string[];
-  invitations: Invitation[];
+interface CustomOnFail {
+  type: "custom";
+  code: string;
 }
 
-interface Team {
-  id: string;
-  uniqueName: string;
-  avatar?: string;
-  members: Member[];
-}
+export type OnFail =
+  | RetryOnFail
+  | TerminateOnFail
+  | IgnoreOnFail
+  | CustomOnFail;
 
-// Cores
+interface UntypedInput {
+  key: string;
+  label: string;
+  description?: string;
 
-type Type = string &
-  (
-    | "string"
-    | "number"
-    | "boolean"
-    | "string[]"
-    | "number[]"
-    | "boolean[]"
-    | "any"
-  );
+  required: boolean;
+  visible: boolean;
 
-interface TypeInterface {
-  schema: Schema;
-  properties: [string, string][];
-}
-
-interface Var {
-  id: string;
-  type: Type;
+  validationRegex?: string;
   default?: any;
 }
 
-interface GlobalVar extends Var {
-  global: true;
+interface BaseInput extends UntypedInput {
+  type: "string" | "number" | "boolean" | "any";
 }
 
-// Interface inputs
-
-interface BaseInput {
-  id: string;
-  placeholder: string;
-  name: string;
-  help?: string;
-  docs?: string;
-  required: boolean;
-  value?: any;
+interface ArrayInput extends UntypedInput {
+  type: "array";
+  items: BaseInput | ObjectInput | ArrayInput;
 }
 
-interface StringInput extends BaseInput {
-  type: "string";
-  inputType: "text";
+interface ObjectInput extends UntypedInput {
+  type: "object";
+  properties: [BaseInput | ObjectInput | ArrayInput, string][];
 }
 
-interface NumberInput extends BaseInput {
-  type: "number";
-  inputType: "number";
-}
+export type Input = BaseInput | ObjectInput | ArrayInput;
 
-interface BooleanInput extends BaseInput {
-  type: "boolean";
-  inputType: "check";
-}
-
-interface SelectInput extends BaseInput {
-  type: Type;
-  inputType: "select";
-  options: { value: string; placeholder: string }[];
-}
-
-interface NodeInput extends BaseInput {
-  type: "node";
-  inputType: "node-select";
-}
-
-interface CollectionInput extends BaseInput {
-  type: "collection";
-  inputType: "collection-select";
-}
-
-interface ModelInput extends BaseInput {
-  type: "model";
-  inputType: "model-select";
-}
-
-type Input =
-  | StringInput
-  | NumberInput
-  | BooleanInput
-  | SelectInput
-  | NodeInput
-  | CollectionInput
-  | ModelInput;
-
-// Nodes
-
-interface NodeBlueprint<I = any> {
+export interface BaseNode {
   id: string;
   name: string;
-  icon?: React.ReactNode;
+  label: string;
+  icon: string;
   description: string;
-  info: string;
-  vars: Var[];
-  inputs: Input[];
-  types: Record<string, TypeInterface>;
-  inputsType: I;
-  settings: Input[];
-  response: Type;
+
+  code: string;
+  inputs: [Input, string][]; // value format: type:K::
+
+  group?: string;
+  docs?: string; // markdown documentation
+  help?: string; // link
 }
 
-interface FlowNode<I = any> extends NodeBlueprint<I> {
-  type: string; // the ID of the blueprint
+export interface NormalNode extends BaseNode {
+  type: "normal";
+  next: string;
+  onFail?: OnFail;
 }
 
-interface NodeExecutor<I = any, O = any> {
-  node: FlowNode<I>;
-  executor: (args: I) => O | Promise<O>;
+export interface PythonNode extends BaseNode {
+  type: "python";
+  next: string;
+  onFail?: OnFail;
 }
 
-// Flow
+export interface ConditionNode extends BaseNode {
+  type: "condition";
+  next: { success: string; fail: string };
+}
 
-interface Flow {
+export interface ControlNode extends BaseNode {
+  type: "control";
+  next: string;
+  children: NormalNode[];
+}
+
+export interface StartNode extends BaseNode {
+  type: "start";
+  next: string;
+}
+
+export interface ReturnNode extends BaseNode {
+  type: "return";
+}
+
+export type KoxyNode =
+  | NormalNode
+  | ConditionNode
+  | ControlNode
+  | ReturnNode
+  | PythonNode;
+
+export interface Flow {
   id: string;
   name: string;
-  inputs: Record<string, Type>;
-  nodes: FlowNode[];
-  types: Record<string, TypeInterface>;
-  response: string[];
-  vars: Var[];
-  method: "GET" | "POST" | "DELETE";
+  method: "GET" | "POST" | "PUT" | "DELETE";
+
+  start: StartNode;
+  nodes: KoxyNode[];
+  end: ReturnNode;
+
+  history: Flow[];
+  dependecies: string[];
 }
 
-interface API {
-  main: Flow;
-  error: Flow;
-  paths: [string, Flow][];
-}
-
-// project
-
-interface Project {
+export interface Collection {
   id: string;
-  teamId: string;
   name: string;
-  members: string[];
+  description: string;
+  schema: [Input, string][];
 }
 
-// Database
+export interface Api {
+  id: string;
+  collections?: Collection[];
+  database?: string;
+  timeout?: number;
+  keep_warm: boolean;
+  container_type: "NANO" | "MEDIUM" | "LARGE" | "XLARGE";
+  gpu?: {
+    type: "T4" | "L4" | "A10G" | "A100";
+    count: number;
+  }
+  cpu?: number;
+  memory?: number;
+  memory_limit?: number;
+  autoscale?: boolean;
+  flows: Record<string, Flow[]>;
+}
 
-interface DB {}
-
-// Utils
-
-// Read variables
-class Dynamica {}
-
-// Read and match types
-class Typer {}
+export interface Res {
+  status: number;
+  body?: any;
+  headers?: Record<string, string>;
+}
