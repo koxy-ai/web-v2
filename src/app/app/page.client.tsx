@@ -4,7 +4,6 @@ import { Invite } from "@prisma/client";
 import NewTeam from "@/components/new-team";
 import { Session } from "next-auth";
 import Button from "@/components/tailus-ui/Button";
-import { Text } from "@/components/tailus-ui/typography";
 import { IconBell, IconChevronRight } from "@tabler/icons-react";
 import { useState } from "react";
 import addMember from "@/functions/team/add-member";

@@ -7,6 +7,8 @@ import {
   IconChartBar,
   IconChartLine,
   IconChevronRight,
+  IconInfoSquare,
+  IconRocket,
   IconSettings,
   IconSlash,
   IconUsersGroup,
@@ -14,6 +16,8 @@ import {
 import { Session } from "next-auth";
 import { useState } from "react";
 import TeamMembers from "./members";
+import { getTier } from "@/utils/team-tiers";
+import Button from "../tailus-ui/Button";
 
 interface Props {
   session: Session;
@@ -25,6 +29,16 @@ interface Props {
   invites: Invite[];
 }
 
+interface Tab {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  component: React.ReactNode;
+  description: React.ReactNode;
+  limit?: () => boolean;
+  limitMessage?: string;
+}
+
 export default function TeamHead({
   session,
   team,
@@ -32,17 +46,11 @@ export default function TeamHead({
   projects,
   teamMembers,
   teamUsers,
-  invites
+  invites,
 }: Props) {
   const [activeTab, setActiveTab] = useState(0);
 
-  const tabs: {
-    id: string;
-    name: string;
-    icon: React.ReactNode;
-    component: React.ReactNode;
-    description: React.ReactNode;
-  }[] = [
+  const tabs: Tab[] = [
     {
       id: "projects",
       name: "Projects",
@@ -70,6 +78,9 @@ export default function TeamHead({
         team.tier,
         "members"
       )} members`,
+      limit: () => teamMembers.length >= getLimit(team.tier, "members"),
+      limitMessage:
+        "You have reached the maximum number of members, upgrade your plan to invite more members",
     },
     {
       id: "analytics",
@@ -140,8 +151,62 @@ export default function TeamHead({
           ))}
         </div>
       </div>
+      {team.tier === 0 && (
+        <div className="w-full p-6 py-4 bg-red-500/5 border-b-1 border-red-500/30 text-xs flex items-center gap-4">
+          {/* <IconInfoSquare /> */}
+          <span className="opacity-90 w-full">
+            Your team is on the free plan, you can test all of Koxy {"AI's"}{" "}
+            features as you wish, but you need to upgrade to a paid plan in
+            order to deploy your backend and use it in your app!
+          </span>{" "}
+          <Button.Root intent="gray" variant="ghost" size="xs" className="min-w-max">
+            <Button.Label className="text-xs">Upgrade now</Button.Label>
+            <Button.Icon type="trailing">
+              <IconChevronRight />
+            </Button.Icon>
+          </Button.Root>
+        </div>
+      )}
       <div className="w-full p-6 flex flex-col gap-4">
         {tabs[activeTab].component}
+        {getTier(member.role) >= 50 &&
+          team.tier < 2 &&
+          tabs[activeTab]?.limit?.() && (
+            <div className="text-xs p-6 border border-white/30 border-dashed rounded-lg flex gap-4 w-full relative overflow-hidden mt-3 items-end">
+              <div className="w-full flex flex-col gap-2">
+                <div className="flex items-center gap-1 mb-3">
+                  <div
+                    className="w-4 h-6 rounded-tl-[999px] border border-white/20"
+                    style={{
+                      boxShadow: "0px 0px 55px 0px rgba(255, 255, 255, .4)",
+                    }}
+                  ></div>
+                  <div
+                    className="w-4 h-6 rounded-br-[999px] border border-white/20 mb-2"
+                    style={{
+                      boxShadow: "0px 0px 55px 0px rgba(255, 255, 255, .4)",
+                    }}
+                  ></div>
+                </div>
+                <div className="text-sm font-semibold">Upgrade your team</div>
+                <div>{tabs[activeTab].limitMessage}</div>
+              </div>
+              <Button.Root
+                className="max-w-max min-w-max"
+                style={{
+                  textShadow: "0px 0px 5px rgba(255, 255, 255, .7)",
+                }}
+                intent="gray"
+                variant="outlined"
+                size="sm"
+              >
+                <Button.Label className="text-xs">Upgrade team</Button.Label>
+                <Button.Icon type="trailing">
+                  <IconRocket size={16} />
+                </Button.Icon>
+              </Button.Root>
+            </div>
+          )}
       </div>
     </div>
   );
