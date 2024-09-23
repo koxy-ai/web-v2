@@ -18,6 +18,7 @@ import { useState } from "react";
 import TeamMembers from "./members";
 import { getTier } from "@/utils/team-tiers";
 import Button from "../tailus-ui/Button";
+import TeamProjects from "./projects";
 
 interface Props {
   session: Session;
@@ -55,7 +56,12 @@ export default function TeamHead({
       id: "projects",
       name: "Projects",
       icon: <IconBox size={16} />,
-      component: <div>Projects</div>,
+      component: (
+        <TeamProjects
+          team={team}
+          projects={projects}
+        />
+      ),
       description: `${projects.length}/${getLimit(
         team.tier,
         "projects"
