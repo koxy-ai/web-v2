@@ -149,3 +149,13 @@ export interface Res {
   body?: any;
   headers?: Record<string, string>;
 }
+
+// UI STUFF
+
+export interface CompCall {
+  team: Team;
+  project: Project;
+  api: Api;
+}
+
+export type CompRes = ((args: CompCall) => React.ReactNode);

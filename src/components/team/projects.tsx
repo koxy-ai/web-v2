@@ -9,6 +9,7 @@ import { Title } from "../tailus-ui/typography";
 import { IconPlus } from "@tabler/icons-react";
 import DashboardIcon from "../icons/dashboard";
 import AddProject from "./add-project";
+import ProjectItem from "./project-item";
 
 interface Props {
   team: Team;
@@ -79,16 +80,23 @@ export default function TeamProjects({ projects, team }: Props) {
           onInput={handleSearch}
         />
         <div className="w-full"></div>
-        <Button.Root
-          intent="success"
-          size="xs"
-          className="border"
-          disabled={getLimit(team.tier, "projects") <= projects.length}
-        >
-          <Button.Label className="text-xs min-w-max">
-            New Cloudspace
-          </Button.Label>
-        </Button.Root>
+        <AddProject team={team}>
+          <Button.Root
+            intent="success"
+            size="xs"
+            className="border"
+            disabled={getLimit(team.tier, "projects") <= projects.length}
+          >
+            <Button.Label className="text-xs min-w-max">
+              New Cloudspace
+            </Button.Label>
+          </Button.Root>
+        </AddProject>
+      </div>
+      <div className="w-full grid grid-cols-3 flex gap-4">
+        {projectsState.map((project) => (
+          <ProjectItem project={project} key={project.id} team={team} />
+        ))}
       </div>
     </>
   );
