@@ -163,7 +163,7 @@ export default function AddMember({ team, children, pushInvite }: Props) {
             </Dialog.Close>
             <Button.Root
               size="xs"
-              intent="secondary"
+              intent="success"
               className="border"
               onClick={add}
               disabled={loading}

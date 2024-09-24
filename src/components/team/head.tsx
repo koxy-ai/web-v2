@@ -7,10 +7,9 @@ import {
   IconChartBar,
   IconChartLine,
   IconChevronRight,
-  IconInfoSquare,
+  IconCloud,
   IconRocket,
   IconSettings,
-  IconSlash,
   IconUsersGroup,
 } from "@tabler/icons-react";
 import { Session } from "next-auth";
@@ -19,6 +18,7 @@ import TeamMembers from "./members";
 import { getTier } from "@/utils/team-tiers";
 import Button from "../tailus-ui/Button";
 import TeamProjects from "./projects";
+import Particles from "../ui/particles";
 
 interface Props {
   session: Session;
@@ -54,8 +54,8 @@ export default function TeamHead({
   const tabs: Tab[] = [
     {
       id: "projects",
-      name: "Projects",
-      icon: <IconBox size={16} />,
+      name: "Cloudspaces",
+      icon: <IconCloud size={16} />,
       component: (
         <TeamProjects
           team={team}
@@ -65,7 +65,7 @@ export default function TeamHead({
       description: `${projects.length}/${getLimit(
         team.tier,
         "projects"
-      )} projects`,
+      )} Cloudspaces`,
     },
     {
       id: "team",
@@ -158,14 +158,14 @@ export default function TeamHead({
         </div>
       </div>
       {team.tier === 0 && (
-        <div className="w-full p-6 py-4 bg-red-500/5 border-b-1 border-red-500/30 text-xs flex items-center gap-4">
-          {/* <IconInfoSquare /> */}
+        <div className="w-full p-6 py-4 border-b-1 border-green-400/20 bg-gradient-to-r from-green-500/10 to-transparent text-xs flex items-center gap-4 relative overflow-hidden">
+          <Particles className="absolute inset-0 w-full opacity-60 z-0" color="#4ade80" refresh />
           <span className="opacity-90 w-full">
             Your team is on the free plan, you can test all of Koxy {"AI's"}{" "}
             features as you wish, but you need to upgrade to a paid plan in
             order to deploy your backend and use it in your app!
           </span>{" "}
-          <Button.Root intent="gray" variant="ghost" size="xs" className="min-w-max">
+          <Button.Root intent="gray" variant="ghost" size="xs" className="min-w-max z-10">
             <Button.Label className="text-xs">Upgrade now</Button.Label>
             <Button.Icon type="trailing">
               <IconChevronRight />

@@ -132,7 +132,7 @@ export interface Api {
   database?: string;
   timeout?: number;
   keep_warm: boolean;
-  container_type: "NANO" | "MEDIUM" | "LARGE" | "XLARGE";
+  container_type: "BASE" | "MEDIUM" | "LARGE" | "XLARGE";
   gpu?: {
     type: "T4" | "L4" | "A10G" | "A100";
     count: number;

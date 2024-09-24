@@ -61,7 +61,7 @@ export default function TeamMembers({
           }}
         >
           <Button.Root
-            intent="secondary"
+            intent="success"
             size="xs"
             className="border"
             disabled={

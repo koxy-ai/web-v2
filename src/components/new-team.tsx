@@ -130,7 +130,7 @@ export default function NewTeam({ session, keepOpen, children }: Props) {
             )}
             <Button.Root
               variant="solid"
-              intent="secondary"
+              intent="success"
               size="sm"
               className="border"
               onClick={submit}
