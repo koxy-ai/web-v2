@@ -130,13 +130,13 @@ export default function NewTeam({ session, keepOpen, children }: Props) {
             )}
             <Button.Root
               variant="solid"
-              intent="success"
+              intent="neutral"
               size="sm"
-              className="border"
+              className="font-semibold"
               onClick={submit}
               disabled={loading}
             >
-              <Button.Label className="text-sm">Create new team</Button.Label>
+              <Button.Label className="text-xs">Create new team</Button.Label>
               {loading && (
                 <Button.Icon>
                   <LoadingIcon />

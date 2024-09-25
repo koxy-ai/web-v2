@@ -3,6 +3,7 @@
 import { Invite, Team } from "@prisma/client";
 import {
   IconArrowsVertical,
+  IconChevronRight,
   IconUserCode,
   IconUserPentagon,
 } from "@tabler/icons-react";
@@ -153,7 +154,7 @@ export default function AddMember({ team, children, pushInvite }: Props) {
           <Dialog.Actions>
             <Dialog.Close>
               <Button.Root
-                size="xs"
+                size="sm"
                 intent="gray"
                 variant="ghost"
                 disabled={loading}
@@ -162,9 +163,10 @@ export default function AddMember({ team, children, pushInvite }: Props) {
               </Button.Root>
             </Dialog.Close>
             <Button.Root
-              size="xs"
-              intent="success"
-              className="border"
+              size="sm"
+              intent="neutral"
+              variant="solid"
+              className="font-semibold"
               onClick={add}
               disabled={loading}
             >
@@ -174,6 +176,9 @@ export default function AddMember({ team, children, pushInvite }: Props) {
                 </Button.Icon>
               )}
               <Button.Label className="text-xs">Send invite</Button.Label>
+              <Button.Icon type="trailing">
+                <IconChevronRight size={16} />
+              </Button.Icon>
             </Button.Root>
           </Dialog.Actions>
         </Dialog.Content>

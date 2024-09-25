@@ -61,9 +61,9 @@ export default function TeamMembers({
           }}
         >
           <Button.Root
-            intent="success"
+            intent="neutral"
             size="xs"
-            className="border"
+            className="font-semibold"
             disabled={
               // getLimit(team.tier, "members") <= roles.length ||
               getTier(currentUser.role) < 50

@@ -158,8 +158,8 @@ export default function TeamHead({
         </div>
       </div>
       {team.tier === 0 && (
-        <div className="w-full p-6 py-4 border-b-1 border-green-400/20 bg-gradient-to-r from-green-500/10 to-transparent text-xs flex items-center gap-4 relative overflow-hidden">
-          <Particles className="absolute inset-0 w-full opacity-60 z-0" color="#4ade80" refresh />
+        <div className="w-full p-6 py-4 border-b-1 bg-gradient-to-r from-white/5 to-transparent text-xs flex items-center gap-4 relative overflow-hidden">
+          {/* <Particles className="absolute inset-0 w-full opacity-60 z-0" color="#4ade80" refresh /> */}
           <span className="opacity-90 w-full">
             Your team is on the free plan, you can test all of Koxy {"AI's"}{" "}
             features as you wish, but you need to upgrade to a paid plan in

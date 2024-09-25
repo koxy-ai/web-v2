@@ -100,7 +100,7 @@ export default function AddProject({ team, children }: Props) {
           <Dialog.Actions className="p-5 border-t-1 border-dashed">
             <Dialog.Close>
               <Button.Root
-                size="xs"
+                size="sm"
                 intent="gray"
                 variant="ghost"
                 disabled={loading}
@@ -109,9 +109,9 @@ export default function AddProject({ team, children }: Props) {
               </Button.Root>
             </Dialog.Close>
             <Button.Root
-              size="xs"
-              intent="success"
-              className="border"
+              size="sm"
+              intent="neutral"
+              className="font-semibold"
               disabled={loading}
               onClick={add}
             >

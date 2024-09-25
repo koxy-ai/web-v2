@@ -49,18 +49,18 @@ export default function TeamProjects({ projects, team }: Props) {
         </div>
         <AddProject team={team}>
           <Button.Root
-            intent="success"
+            intent="neutral"
             size="sm"
-            className="border"
+            className=""
             disabled={getLimit(team.tier, "projects") <= projects.length}
             style={{
-              boxShadow: "0px 0px 180px 0px #4ade80",
+              boxShadow: "0px 0px 180px 0px rgba(255, 255, 255, .2)",
             }}
           >
             <Button.Icon>
-              <IconPlus size={16} />
+              <IconPlus size={14} />
             </Button.Icon>
-            <Button.Label className="text-xs min-w-max">
+            <Button.Label className="text-xs min-w-max font-semibold">
               New Cloudspace
             </Button.Label>
           </Button.Root>
@@ -82,9 +82,9 @@ export default function TeamProjects({ projects, team }: Props) {
         <div className="w-full"></div>
         <AddProject team={team}>
           <Button.Root
-            intent="success"
+            intent="neutral"
             size="xs"
-            className="border"
+            className="font-semibold"
             disabled={getLimit(team.tier, "projects") <= projects.length}
           >
             <Button.Label className="text-xs min-w-max">
