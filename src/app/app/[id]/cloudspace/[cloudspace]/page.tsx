@@ -48,7 +48,7 @@ export default async function Page({ params: { id, cloudspace } }: Props) {
         teams={teams}
         invites={invites}
       />
-      <div className="pt-14">
+      <div className="">
         <CloudspaceLayout team={team} project={project} />
       </div>
     </>
