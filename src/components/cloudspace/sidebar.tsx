@@ -22,6 +22,7 @@ interface Props {
   api: Api;
   active: string;
   setActive: (a: string) => any;
+  changeSide: (title: string, comp: CompRes) => any;
 }
 
 interface SideLink {
@@ -37,27 +38,29 @@ export default function Sidebar({
   api,
   active,
   setActive,
+  changeSide
 }: Props) {
   const [open, setOpen] = useState(false);
+  const [timeout, setTimeoutBool] = useState(false);
 
   const links: SideLink[] = [
     {
       id: "home",
       name: "Home",
       icon: <IconHome size={16} className="min-w-max" />,
-      comp: () => <div>hi</div>,
+      comp: () => <div>hi home</div>,
     },
     {
       id: "api",
       name: "Api",
       icon: <IconApi size={20} className="min-w-max" />,
-      comp: () => <div>hi</div>,
+      comp: () => <div>hi api</div>,
     },
     {
       id: "database",
       name: "Database",
       icon: <IconDatabase size={16} className="min-w-max" />,
-      comp: () => <div>hi</div>,
+      comp: () => <div>hi database</div>,
     },
     {
       id: "functions",
@@ -96,7 +99,7 @@ export default function Sidebar({
       className={`fixed top-0 left-0 p-3 pt-16 h-full border-r-1 z-20 flex flex-col items-center gap-4 border-border/50 ${
         !open ? "w-14" : "w-48"
       } transition-all duration-500 bg-gray-900/10 backdrop-blur-md`}
-      onMouseEnter={() => setOpen(true)}
+      onMouseEnter={() => {if (!timeout) setOpen(true)}}
       onMouseLeave={() => setOpen(false)}
     >
       {links.map((link) => (
@@ -108,6 +111,17 @@ export default function Sidebar({
             link.id === active ? "opacity-100" : "opacity-70 hover:opacity-90"
           }`}
           key={`sidebar-link-${link.id}`}
+          onClick={() => {
+            setActive(link.id);
+            setOpen(false);
+
+            changeSide(link.name, link.comp);
+
+            setTimeoutBool(true);
+            setTimeout(() => {
+              setTimeoutBool(false);
+            }, 700);
+          }}
         >
           <div className="absolute h-full w-8 pr-0.5 flex items-center justify-center top-0 left-0">
             {link.icon}

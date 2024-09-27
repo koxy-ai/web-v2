@@ -158,4 +158,4 @@ export interface CompCall {
   api: Api;
 }
 
-export type CompRes = ((args: CompCall) => React.ReactNode);
+export type CompRes = (args: CompCall) => JSX.Element;

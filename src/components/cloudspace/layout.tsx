@@ -1,8 +1,8 @@
 "use client";
 
-import { Api, CompRes } from "@/types/koxy";
+import { Api, CompCall, CompRes } from "@/types/koxy";
 import { Project, Team } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./sidebar";
 import {
   ResizableHandle,
@@ -21,10 +21,22 @@ export default function CloudspaceLayout({ team, project }: Props) {
   const [projectState, setProjectState] = useState({ ...project });
   const [comps, setComps] = useState<CompRes[]>([]);
   const [sideActive, setSideActive] = useState("home");
-  const [sideComp, setSideComp] = useState<React.ReactNode>();
+  const [SideComp, setSideComp] = useState<CompRes | null>(null);
+  const [sideTitle, setSideTitle] = useState("Home");
+
+  useEffect(() => {
+    setSideComp(() => function Comp({ team, project, api }: CompCall) {
+      return (<div>{project.name} home</div>);
+    })
+  }, []);
 
   const update = () => {
     setUpdateId(Math.random().toString());
+  };
+
+  const changeSide = (title: string, comp: CompRes) => {
+    setSideTitle(title);
+    setSideComp(() => comp);
   };
 
   return (
@@ -35,15 +47,17 @@ export default function CloudspaceLayout({ team, project }: Props) {
         api={api}
         active={sideActive}
         setActive={(a: string) => setSideActive(a)}
+        changeSide={changeSide}
       />
       <ResizablePanelGroup direction="horizontal" className="pl-14 flex">
         <ResizablePanel className="min-w-56 bg-gray-900/10" defaultSize={18}>
           <div className="pt-14 min-h-screen max-h-screen overflow-auto no-scrollbar">
             <div className="min-h-10 max-h-10 border-b-1 border-border/60 flex items-center px-4">
-              <div className="text-xs opacity-60">API</div>
+              <div className="text-xs opacity-60">{sideTitle}</div>
             </div>
-            <div className="min-h-screen"></div>
-            <div className="min-h-screen"></div>
+            {SideComp !== null && (
+              <SideComp team={team} project={projectState} api={api} />
+            )}
           </div>
         </ResizablePanel>
         <ResizableHandle withHandle className="opacity-60" />
@@ -52,7 +66,6 @@ export default function CloudspaceLayout({ team, project }: Props) {
             <div className="w-full min-h-10 max-h-10 border-b-1 border-border/60 flex items-center px-4">
               hi
             </div>
-            Two
             <div className="h-screen"></div>
           </div>
         </ResizablePanel>

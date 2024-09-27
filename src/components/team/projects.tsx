@@ -44,7 +44,7 @@ export default function TeamProjects({ projects, team }: Props) {
         </div>
         <Title className="text-base">No Cloudspaces yet!</Title>
         <div className="text-sm opacity-70 max-w-md mb-2">
-          Cloudspaces are cloud environments for your backend's API, flows,
+          Cloudspaces are cloud environments for your {"backend's"} API, flows,
           databases, real-time channels, all served by Koxy AI.
         </div>
         <AddProject team={team}>
