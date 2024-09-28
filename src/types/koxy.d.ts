@@ -152,10 +152,23 @@ export interface Res {
 
 // UI STUFF
 
+export interface UpdateProjectProps {
+  type: "project";
+  data: Partial<Project>;
+}
+
+export interface UpdateApiProps {
+  type: "api";
+  data: Partial<Api>;
+}
+
 export interface CompCall {
   team: Team;
   project: Project;
   api: Api;
+  openTab: (id: string, comp: CompRes) => any;
+  saveChanges: () => any;
+  update: (payload: UpdateProjectProps | UpdateApiProps, callback?: Function) => any;
 }
 
 export type CompRes = (args: CompCall) => JSX.Element;

@@ -99,7 +99,7 @@ export default function Sidebar({
     <div
       className={`fixed top-0 left-0 p-3 pt-16 h-full border-r-1 z-20 flex flex-col items-center gap-4 border-border/50 ${
         !open ? "w-14" : "w-48"
-      } transition-all duration-500 bg-gray-900/10 backdrop-blur-md`}
+      } transition-all duration-500 bg-[#080808]/80 backdrop-blur-md`}
       onMouseEnter={() => {if (!timeout) setOpen(true)}}
       onMouseLeave={() => setOpen(false)}
     >
