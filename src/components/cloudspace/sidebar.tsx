@@ -1,6 +1,6 @@
 "use client";
 
-import { Api, CompRes } from "@/types/koxy";
+import { Api, CompCall, CompRes } from "@/types/koxy";
 import { Project, Team } from "@prisma/client";
 import { useState } from "react";
 import Button from "../tailus-ui/Button";
@@ -15,6 +15,7 @@ import {
   IconSettings,
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
+import SideApi from "./side/api";
 
 interface Props {
   project: Project;
@@ -54,7 +55,7 @@ export default function Sidebar({
       id: "api",
       name: "Api",
       icon: <IconApi size={20} className="min-w-max" />,
-      comp: () => <div>hi api</div>,
+      comp: (params: CompCall) => <SideApi {...params} />,
     },
     {
       id: "database",

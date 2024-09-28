@@ -149,9 +149,9 @@ export default function TeamHead({
                     : "max-w-0 opacity-0"
                 } transition-all duration-500`}
               >
-                <div className="mt-2 h-1 w-full bg-gray-400 absolute -bottom-0.5 left-0 rounded-t-2xl z-10 "></div>
-                <div className="mt-2 h-0.5 w-full bg-gradient-to-r from-transparent via-white to-transparent absolute bottom-0 left-0 blur-sm z-0"></div>
-                <div className="mt-2 h-0.5 w-full bg-gradient-to-r from-transparent via-white to-transparent absolute bottom-0 left-0 blur-md z-0"></div>
+                <div className="mt-2 h-[1.5px] w-full bg-white absolute bottom-0 left-0 z-10 "></div>
+                <div className="mt-2 h-0.5 w-full bg-white to-transparent absolute bottom-0 left-0 blur-sm z-0"></div>
+                <div className="mt-2 h-0.5 w-full bg-white to-transparent absolute bottom-0 left-0 blur-lg z-0"></div>
               </div>
             </div>
           ))}
