@@ -3,10 +3,7 @@
 import { CompCall } from "@/types/koxy";
 import { IconRoute } from "@tabler/icons-react";
 import EmptyCard from "../empty-card";
-
-const NewApiRoute = ({}: CompCall) => {
-  return <div className="p-4 flex flex-col"></div>;
-};
+import NewApiRoute from "../new-api-route";
 
 export default function SideApi({ api, project, openTab }: CompCall) {
   const n = Object.keys(api.flows);

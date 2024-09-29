@@ -7,6 +7,7 @@ import PageClient from "./page.client";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions))!;
+
   const [members, invites] = await Promise.all([
     db.member.findMany({
       where: { userId: session.user.id },
