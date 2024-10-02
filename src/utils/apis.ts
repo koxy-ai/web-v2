@@ -1,4 +1,4 @@
-import { Api } from "@/types/koxy";
+import { Api, Flow } from "@/types/koxy";
 
 export const apiSample: Api = {
   id: "sample",
@@ -17,3 +17,35 @@ export const apiSample: Api = {
 export const newApiFromSample = (api: Partial<Api> = {}) => {
   return { ...apiSample, ...api };
 };
+
+export const sampleRoute = (path: string, method: Flow["method"], name?: string): Flow => {
+  return {
+    id: crypto.randomUUID(),
+    method,
+    name: name || `${method} ${path}`,
+    history: [],
+    dependecies: [],
+    start: {
+      id: "start-0",
+      name: "start",
+      label: "Start",
+      code: "",
+      description: "",
+      icon: "",
+      type: "start",
+      inputs: [],
+      next: "NONE"
+    },
+    nodes: [],
+    end: {
+      id: "end-0",
+      name: "end",
+      label: "End",
+      icon: "",
+      inputs: [],
+      type: "return",
+      code: "",
+      description: ""
+    }
+  }
+}
