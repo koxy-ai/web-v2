@@ -35,6 +35,7 @@ export default function CloudspaceLayout({ team, project }: Props) {
   const [sideActive, setSideActive] = useState("home");
   const [SideComp, setSideComp] = useState<CompRes | null>(null);
   const [sideTitle, setSideTitle] = useState("Home");
+  const [compsData, setCompsData] = useState<Record<string, any>>({});
 
   useEffect(() => {
     setSideComp(
@@ -86,10 +87,28 @@ export default function CloudspaceLayout({ team, project }: Props) {
     setSideComp(() => comp);
   };
 
-  const openTab = (id: string, comp: CompRes) => {
+  const openTab = (id: string, comp: CompRes, data?: any) => {
     setComps((prev) => ({ ...prev, [id]: comp }));
     setActiveComp(id);
+    setCompsData((prev) => ({ ...prev, [id]: data }));
   };
+
+  const closeTab = (id: string) => {
+    if (activeComp === id) {
+      const otherTabs = Object.keys(comps).filter((key) => key !== id);
+      if (otherTabs.length > 0) {
+        setActiveComp(otherTabs[0]);
+      } else {
+        setActiveComp(null);
+      }
+    }
+
+    setComps((prev) => {
+      const newComps = { ...prev };
+      delete newComps[id];
+      return newComps;
+    });
+  }
 
   const DisplayComp = comps[activeComp || ""];
 
@@ -157,13 +176,7 @@ export default function CloudspaceLayout({ team, project }: Props) {
                     </div>
                     <IconX
                       className="min-h-6 max-h-6 min-w-6 max-w-6 p-1 rounded-md hover:bg-gray-500/20 text-xs scale-[0.75] opcaity-80"
-                      onClick={() => {
-                        setComps((prev) => {
-                          const newComps = { ...prev };
-                          delete newComps[key];
-                          return newComps;
-                        });
-                      }}
+                      onClick={() => closeTab(key)}
                     />
                   </div>
                   <SeparatorRoot
@@ -190,6 +203,7 @@ export default function CloudspaceLayout({ team, project }: Props) {
                   openTab={openTab}
                   update={update}
                   saveChanges={saveChanges}
+                  data={compsData[activeComp || ""] || {}}
                 />
               )}
             </div>

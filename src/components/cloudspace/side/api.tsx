@@ -37,7 +37,7 @@ export default function SideApi({ api, openTab }: CompCall) {
         </Button.Icon>
         <Button.Label className="text-xs">New API Route</Button.Label>
       </Button.Root>
-      <FlowStructure api={api} />
+      <FlowStructure api={api} openTab={openTab} />
     </div>
   );
 }

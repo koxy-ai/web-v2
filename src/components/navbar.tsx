@@ -94,7 +94,7 @@ export default function Navbar({
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full flex items-center z-30 bg-background border-b-1 border-border/50 h-14 px-6 before:fixed before:inset-0 before:-z-40 before:[background-image:url('/grainy-bg.svg')] before:opacity-[0.030] before:h-14">
+    <div className="fixed top-0 left-0 w-full flex items-center z-30 bg-background border-b-1 border-border/50 h-14 px-4 before:fixed before:inset-0 before:-z-40 before:[background-image:url('/grainy-bg.svg')] before:opacity-[0.030] before:h-14">
       <Link href={`/app/${openTeam.uniqueName}`} className="flex items-center gap-0.5 pt-1 rotate-[20deg]">
         <div className="w-3 h-5 rounded-tl-[999px] border border-white/20 bg-gray-900/50"></div>
         <div className="w-3 h-5 rounded-br-[999px] border border-white/20 bg-gray-900/50 mb-2"></div>

@@ -166,9 +166,10 @@ export interface CompCall {
   team: Team;
   project: Project;
   api: Api;
-  openTab: (id: string, comp: CompRes) => any;
+  openTab: (id: string, comp: CompRes, data?: Record<string, any>) => any;
   saveChanges: () => any;
   update: (payload: UpdateProjectProps | UpdateApiProps, callback?: Function) => any;
+  data?: Record<string, any>;
 }
 
 export type CompRes = (args: CompCall) => JSX.Element;
