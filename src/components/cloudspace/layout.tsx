@@ -156,9 +156,9 @@ export default function CloudspaceLayout({ team, project }: Props) {
         </ResizablePanel>
         <ResizableHandle withHandle className="opacity-60" />
 
-        <ResizablePanel className="w-full min-w-[70%]" defaultSize={82}>
-          <div className="flex flex-col pt-14 min-h-screen max-h-screen overflow-auto">
-            <div className="w-full min-h-10 max-h-10 border-b-1 border-border/60 flex bg-gray-900/10 overflow-auto no-scrollbar">
+        <ResizablePanel className="w-full min-w-[70%] relative" defaultSize={82}>
+          <div className="flex flex-col pt-14 min-h-screen max-h-screen overflow-auto no-scrollbar">
+            <div className="z-10 w-full min-h-10 max-h-10 border-b-1 border-border/60 flex bg-gray-900/10 overflow-auto no-scrollbar absolute backdrop-blur-md">
               {Object.keys(comps).map((key, index) => (
                 <div key={`tab-${key}-${index}`} className="flex">
                   <div
@@ -194,7 +194,7 @@ export default function CloudspaceLayout({ team, project }: Props) {
                 </Button.Root>
               </div>
             </div>
-            <div className="h-screen">
+            <div className="h-screen mt-10">
               {DisplayComp && (
                 <DisplayComp
                   team={team}

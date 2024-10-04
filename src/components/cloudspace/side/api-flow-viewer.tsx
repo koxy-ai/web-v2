@@ -23,15 +23,16 @@ const MethodLabel: React.FC<{ method: Flow["method"] }> = ({ method }) => {
   );
 };
 
-const FlowItem: React.FC<{ flow: Flow; openTab: CompCall["openTab"] }> = ({
+const FlowItem: React.FC<{ flow: Flow; openTab: CompCall["openTab"]; path: string }> = ({
   flow,
   openTab,
+  path
 }) => (
   <ContextMenu.Root>
     <ContextMenu.Trigger>
       <div
         className="pl-2 flex items-center space-x-2 py-1 text-xs opacity-80 hover:bg-gray-900/40 cursor-pointer"
-        onClick={() => openTab(`${flow.name}`, FlowMain, flow)}
+        onClick={() => openTab(`${flow.name}`, FlowMain, { flow, path })}
       >
         <IconRoute className="h-4 w-4 text-gray-400" />
         <span className="text-gray-300">{flow.name}</span>
@@ -82,7 +83,7 @@ const PathItem: React.FC<{
       {isOpen && (
         <div className="ml-4 flex flex-col gap-1 pb-2">
           {flows.map((flow) => (
-            <FlowItem key={flow.id} flow={flow} openTab={openTab} />
+            <FlowItem key={flow.id} flow={flow} openTab={openTab} path={path} />
           ))}
         </div>
       )}

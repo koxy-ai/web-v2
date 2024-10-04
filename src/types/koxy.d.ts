@@ -81,7 +81,7 @@ export interface PythonNode extends BaseNode {
 
 export interface ConditionNode extends BaseNode {
   type: "condition";
-  next: { success: string; fail: string };
+  next: { default: string; success: string; fail: string };
 }
 
 export interface ControlNode extends BaseNode {
@@ -98,6 +98,8 @@ export interface StartNode extends BaseNode {
 export interface ReturnNode extends BaseNode {
   type: "return";
 }
+
+export type FunctionalNode = NormalNode | ControlNode | PythonNode | ConditionNode;
 
 export type KoxyNode =
   | NormalNode
