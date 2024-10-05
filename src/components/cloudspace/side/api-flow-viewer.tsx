@@ -32,7 +32,7 @@ const FlowItem: React.FC<{ flow: Flow; openTab: CompCall["openTab"]; path: strin
     <ContextMenu.Trigger>
       <div
         className="pl-2 flex items-center space-x-2 py-1 text-xs opacity-80 hover:bg-gray-900/40 cursor-pointer"
-        onClick={() => openTab(`${flow.name}`, FlowMain, { flow, path })}
+        onClick={() => openTab(`${flow.name}`, (args: any) => <FlowMain {...args} />, { flow, path })}
       >
         <IconRoute className="h-4 w-4 text-gray-400" />
         <span className="text-gray-300">{flow.name}</span>

@@ -67,6 +67,10 @@
     outline: none !important;
   }
 
+  .nodeLayout {
+    @apply border rounded-lg flex flex-col min-w-72 max-w-72 bg-gray-900/20 backdrop-blur-md text-xs transition-all;
+  }
+
   /* body {
     @apply bg-background text-foreground;
   } */

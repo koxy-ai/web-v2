@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 import Canvas from "./canvas";
 
 export default function FlowMain({ data }: CompCall) {
-  data = data as {flow: Flow; path: string};
+  data = data as { flow: Flow; path: string };
   const [state, setState] = useState(data);
 
   useEffect(() => {

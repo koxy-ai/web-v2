@@ -24,6 +24,35 @@ export type OnFail =
   | IgnoreOnFail
   | CustomOnFail;
 
+interface BaseInputUi {
+  placeholder?: string;
+}
+
+interface StringInputUi extends BaseInputUi {
+  type: "string";
+}
+
+interface NumberInputUi extends BaseInputUi {
+  type: "number";
+  min?: number;
+  max?: number;
+}
+
+interface BooleanInputUi extends BaseInputUi {
+  type: "boolean";
+}
+
+interface SelectInputUi extends BaseInputUi {
+  type: "select";
+  options: [string, string][];
+}
+
+export type InputUi =
+  | StringInputUi
+  | NumberInputUi
+  | BooleanInputUi
+  | SelectInputUi;
+
 interface UntypedInput {
   key: string;
   label: string;
@@ -60,7 +89,7 @@ export interface BaseNode {
   description: string;
 
   code: string;
-  inputs: [Input, string][]; // value format: type:K::
+  inputs: [Input, string, InputUi][]; // value format: type:K::
 
   group?: string;
   docs?: string; // markdown documentation

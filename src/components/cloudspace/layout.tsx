@@ -1,6 +1,12 @@
 "use client";
 
-import { Api, CompCall, CompRes, UpdateApiProps, UpdateProjectProps } from "@/types/koxy";
+import {
+  Api,
+  CompCall,
+  CompRes,
+  UpdateApiProps,
+  UpdateProjectProps,
+} from "@/types/koxy";
 import { Project, Team } from "@prisma/client";
 import { useEffect, useState } from "react";
 import Sidebar from "./sidebar";
@@ -9,7 +15,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { IconLoader, IconPlus, IconX } from "@tabler/icons-react";
+import { IconPlus, IconX } from "@tabler/icons-react";
 import SeparatorRoot from "../tailus-ui/Seperator";
 import Button from "../tailus-ui/Button";
 import updateCloudspace from "@/functions/cloudspaces/update";
@@ -19,8 +25,6 @@ interface Props {
   team: Team;
   project: Project;
 }
-
-
 
 export default function CloudspaceLayout({ team, project }: Props) {
   const [updateId, setUpdateId] = useState<string>(`${Date.now()}`);
@@ -46,8 +50,11 @@ export default function CloudspaceLayout({ team, project }: Props) {
     );
   }, []);
 
-  const update = (payload: UpdateProjectProps | UpdateApiProps, callback?: Function) => {
-    const {type, data} = payload;
+  const update = (
+    payload: UpdateProjectProps | UpdateApiProps,
+    callback?: Function
+  ) => {
+    const { type, data } = payload;
 
     if (type === "project") {
       setProjectState((prev) => ({ ...prev, ...data }));
@@ -108,7 +115,7 @@ export default function CloudspaceLayout({ team, project }: Props) {
       delete newComps[id];
       return newComps;
     });
-  }
+  };
 
   const DisplayComp = comps[activeComp || ""];
 
@@ -156,7 +163,10 @@ export default function CloudspaceLayout({ team, project }: Props) {
         </ResizablePanel>
         <ResizableHandle withHandle className="opacity-60" />
 
-        <ResizablePanel className="w-full min-w-[70%] relative" defaultSize={82}>
+        <ResizablePanel
+          className="w-full min-w-[70%] relative"
+          defaultSize={82}
+        >
           <div className="flex flex-col pt-14 min-h-screen max-h-screen overflow-auto no-scrollbar">
             <div className="z-10 w-full min-h-10 max-h-10 border-b-1 border-border/60 flex bg-gray-900/10 overflow-auto no-scrollbar absolute backdrop-blur-md">
               {Object.keys(comps).map((key, index) => (

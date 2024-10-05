@@ -9,13 +9,75 @@ import {
 
 export class FlowStore {
   flow: Flow;
+  state: Record<string, any> = {};
+  stateListeners: Record<string, Function[]> = {};
+  mainListener?: (f: Flow) => any;
 
-  constructor(flow: Flow) {
-    this.flow = flow;
+  constructor(flow?: Flow, mainListener?: (f: Flow) => any) {
+    this.flow = flow || ({} as Flow);
+    this.mainListener = mainListener;
+  }
+
+  useNodeState<T = any>(node: KoxyNode | StartNode, key: string, defaultV: T) {
+    const stateKey = this.nodeStateKey(node, key);
+    const exist = this.getState<T>(stateKey);
+
+    if (exist !== undefined) {
+      return exist;
+    }
+
+    this.setState<T>(stateKey, defaultV);
+    return this.getState<T>(stateKey);
+  }
+
+  nodeStateKey(node: KoxyNode | StartNode, key: string) {
+    return `${this.flow.id}:${node.id}:${key}`;
+  }
+
+  nodeState(node: KoxyNode | StartNode) {
+    const store = this;
+
+    const get = function <T = any>(key: string) {
+      return store.getState<T>(store.nodeStateKey(node, key))
+    }
+
+    const set = function <T = any>(key: string, data: T) {
+      store.setState<T>(store.nodeStateKey(node, key), data);
+    }
+
+    const onUpdate = function <T = any>(key: string, callback: (data: T) => void) {
+      store.onStateUpdate<T>(store.nodeStateKey(node, key), callback);
+    }
+
+    const use = function <T = any>(key: string, defaultV: T): T {
+      const res = store.useNodeState<T>(node, key, defaultV)
+      return res;
+    }
+
+    return {
+      get, set, onUpdate, use
+    }
+  }
+
+  setState<T = any>(key: string, data: T) {
+    this.state[key] = data;
+    (this.stateListeners[key] ?? []).forEach((callback) => callback(data));
+
+    if (this.mainListener) this.mainListener(this.flow);
+  }
+
+  getState<T = any>(key: string): T {
+    return this.state[key] as T;
+  }
+
+  onStateUpdate<T = any>(key: string, callback: (data: T) => void) {
+    if (!this.stateListeners[key]) this.stateListeners[key] = [];
+    this.stateListeners[key].push((d: T) => callback(d));
   }
 
   set(flow: Flow) {
     this.flow = { ...flow };
+    if (this.mainListener) this.mainListener(this.flow);
   }
 
   copy() {
@@ -79,6 +141,13 @@ export class FlowStore {
       parentNode.next = node.name;
     }
 
+    if (parentNode.type === "start") {
+      this.updateStart(parentNode);
+    } else {
+      this.updateNode(parentNode);
+    }
+
+    this.set(this.flow);
     return true;
   }
 
