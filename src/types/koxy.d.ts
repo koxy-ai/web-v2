@@ -47,11 +47,16 @@ interface SelectInputUi extends BaseInputUi {
   options: [string, string][];
 }
 
+interface CustomInputUi extends BaseInputUi {
+  type: "custom";
+}
+
 export type InputUi =
   | StringInputUi
   | NumberInputUi
   | BooleanInputUi
-  | SelectInputUi;
+  | SelectInputUi
+  | CustomInputUi;
 
 interface UntypedInput {
   key: string;

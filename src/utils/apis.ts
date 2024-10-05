@@ -18,7 +18,11 @@ export const newApiFromSample = (api: Partial<Api> = {}) => {
   return { ...apiSample, ...api };
 };
 
-export const sampleRoute = (path: string, method: Flow["method"], name?: string): Flow => {
+export const sampleRoute = (
+  path: string,
+  method: Flow["method"],
+  name?: string
+): Flow => {
   return {
     id: crypto.randomUUID(),
     method,
@@ -34,7 +38,7 @@ export const sampleRoute = (path: string, method: Flow["method"], name?: string)
       icon: "",
       type: "start",
       inputs: [],
-      next: "NONE"
+      next: "NONE",
     },
     nodes: [],
     end: {
@@ -42,10 +46,37 @@ export const sampleRoute = (path: string, method: Flow["method"], name?: string)
       name: "end",
       label: "End",
       icon: "",
-      inputs: [],
+      inputs: [
+        [
+          {
+            type: "number",
+            key: "status",
+            label: "Status",
+            required: false,
+            visible: true,
+            default: 200,
+            description: "The response status code"
+          },
+          "number:K::200",
+          { type: "number", placeholder: "200" },
+        ],
+        [
+          {
+            type: "number",
+            key: "body",
+            label: "Body",
+            required: false,
+            visible: true,
+            default: "{}",
+            description: "The response body"
+          },
+          "code:K::{}",
+          { type: "custom", placeholder: "The response body" },
+        ],
+      ],
       type: "return",
       code: "",
-      description: ""
-    }
-  }
-}
+      description: "",
+    },
+  };
+};
