@@ -4,6 +4,9 @@ import { Flow } from "@/types/koxy";
 import { FlowStore } from "@/utils/flow";
 import { useEffect, useState } from "react";
 import NodeComp from "./node";
+import dynamic from 'next/dynamic'
+
+const Editor = dynamic(() => import("./editor/Editor"));
 
 interface Props {
   path: string;
@@ -45,6 +48,7 @@ export default function Canvas({ path, flow }: Props) {
       ))}
 
       <NodeComp node={data.end} store={store} path={path} update={(d: Flow) => store.set(d)} />
+      <Editor />
     </div>
   );
 }

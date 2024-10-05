@@ -9,3 +9,6 @@ interface SuccessFuncResponse<T = any> {
 }
 
 type FuncResponse<T = any> = FailedFuncResponse | SuccessFuncResponse<T>;
+
+declare module 'debounce-async';
+declare module '@okikio/emitter';

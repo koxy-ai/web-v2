@@ -95,6 +95,7 @@ export interface BaseNode {
 
   code: string;
   inputs: [Input, string, InputUi][]; // value format: type:K::
+  outputs: [Input, string | undefined][];
 
   group?: string;
   docs?: string; // markdown documentation

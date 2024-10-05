@@ -3,7 +3,7 @@ import { Input, KoxyNode, StartNode } from "@/types/koxy";
 export class Typer {
   constructor() {}
 
-  solveType(input: Input) {
+  static solveType(input: Input) {
     if (input.type !== "object") {
       return input.type;
     }
@@ -11,7 +11,7 @@ export class Typer {
     let type = "{";
 
     for (const prop of input.properties) {
-      const propType = this.solveType(prop[0]);
+      const propType = Typer.solveType(prop[0]);
       type += `${prop[0].key}: ${propType},`;
     }
 
@@ -21,33 +21,45 @@ export class Typer {
     return type;
   }
 
-  generateTypeCode(input: Input, prefix?: string): string {
+  static generateTypeCode(
+    input: Input,
+    prefix: string | undefined = undefined,
+    inner?: boolean
+  ): string {
     const type = this.solveType(input);
-    let typeName = this.capitalFirst(input.key);
+    let typeName = Typer.capitalFirst(input.key);
 
     if (prefix) {
-      typeName = this.capitalFirst(prefix) + typeName;
+      typeName = Typer.capitalFirst(prefix) + typeName;
     }
 
     if (input.type !== "object") {
-      return `type ${typeName} = ${type};`;
+      return !inner ? `type ${typeName} = ${type};` : `${input.key}: ${type}`;
     }
 
-    return `interface ${typeName} ${type};`;
+    return !inner ? `interface ${typeName} ${type};` : `${input.key}: ${type}`;
   }
 
-  generateNodeTypesCode(node: KoxyNode | StartNode): string {
+  static generateNodeTypesCode(node: KoxyNode | StartNode): string {
     let code = "";
 
+    code += "interface Inputs {";
     for (const [input] of node.inputs) {
-      code += this.generateTypeCode(input, node.name);
+      code += Typer.generateTypeCode(input, node.name, true);
+    }
+    code += "};\n";
+
+    code += "interface Outputs {";
+    for (const [input] of node.outputs) {
+      code += Typer.generateTypeCode(input, node.name, true);
       code += "\n";
     }
+    code += "};\n";
 
     return code;
   }
 
-  capitalFirst(value: string) {
+  static capitalFirst(value: string) {
     const first = value.charAt(0).toUpperCase();
     const rest = value.slice(1);
     return first + rest;

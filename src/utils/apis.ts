@@ -39,6 +39,7 @@ export const sampleRoute = (
       type: "start",
       inputs: [],
       next: "NONE",
+      outputs: []
     },
     nodes: [],
     end: {
@@ -75,6 +76,7 @@ export const sampleRoute = (
         ],
       ],
       type: "return",
+      outputs: [],
       code: "",
       description: "",
     },
