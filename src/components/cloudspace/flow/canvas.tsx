@@ -4,7 +4,8 @@ import { Flow } from "@/types/koxy";
 import { FlowStore } from "@/utils/flow";
 import { useEffect, useState } from "react";
 import NodeComp from "./node";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
+import { CodeGenerator } from "@/utils/code-generator";
 
 const Editor = dynamic(() => import("./editor/Editor"));
 
@@ -32,23 +33,46 @@ export default function Canvas({ path, flow }: Props) {
     }
   }, [flow]);
 
+  const generator = new CodeGenerator(
+    "const main = (name: string): string => (<<KOXY_INSERT_VALUE>>)"
+  );
+
+  /**<<KOXY_INSERT_VALUE>>
+
+    const main = (): string => variable; */
+
   if (!data) return null;
 
   return (
     <div className="w-full flex flex-col items-center">
-      <NodeComp node={data.start} store={store} path={path} update={(d: Flow) => {
-        store.set(d);
-        setData(d);
-      }} />
+      <NodeComp
+        node={data.start}
+        store={store}
+        path={path}
+        update={(d: Flow) => {
+          store.set(d);
+          setData(d);
+        }}
+      />
 
       {data.nodes.map((node, index) => (
         <div key={`node-${node.id}-${index}`}>
-          <NodeComp node={node} store={store} path={path} update={(d: Flow) => store.set(d)} />
+          <NodeComp
+            node={node}
+            store={store}
+            path={path}
+            update={(d: Flow) => store.set(d)}
+          />
         </div>
       ))}
 
-      <NodeComp node={data.end} store={store} path={path} update={(d: Flow) => store.set(d)} />
-      <Editor />
+      <NodeComp
+        node={data.end}
+        store={store}
+        path={path}
+        update={(d: Flow) => store.set(d)}
+      />
+      <Editor generator={generator} />
     </div>
   );
 }

@@ -7,19 +7,20 @@ const theme = primer.colors.dark;
 // /dist/json/colors_v2/dark_dimmed.json
 
 export const COLORS = {
+  ...(theme.codemirror as any),
   text: "#adbac7",
-  bg: "#22272e",
-  guttersBg: "#22272e",
-  guttermarkerText: "#22272e",
-  guttermarkerSubtleText: "#636e7b",
-  linenumberText: "#768390",
+  bg: "#0f0f0f",
+  guttersBg: "#0f0f0f",
+  guttermarkerText: "#141414",
+  guttermarkerSubtleText: "rgba(255, 255, 255, .25)",
+  linenumberText: "#dddddd",
   cursor: "#cdd9e5",
-  selectionBg: "rgba(108,182,255,0.3)",
-  activelineBg: "#2d333b",
-  matchingbracketText: "#adbac7",
+  selectionBg: "rgba(50,50,50,0.3)",
+  activelineBg: "#171717",
+  matchingbracketText: "#0f0f0f",
   linesBg: "#22272e",
   syntax: {
-    comment: "#768390",
+    comment: "rgba(255, 255, 255, .25)",
     constant: "#6cb6ff",
     entity: "#dcbdfb",
     keyword: "#f47067",
@@ -28,7 +29,6 @@ export const COLORS = {
     support: "#6cb6ff",
     variable: "#f69d50",
   },
-  ...(theme.codemirror as any),
 };
 
 export const THEME = EditorView.theme(

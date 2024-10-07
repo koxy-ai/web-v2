@@ -7,14 +7,21 @@ import { THEME, HIGHTLIGHT_STYLE } from "./editor-theme";
 
 import type { Extension } from "@codemirror/state";
 
-export default (parentEl: HTMLElement, doc: string, extentions?: Extension) => {
+interface Props {
+  parentEl: HTMLElement;
+  doc: string;
+  extentions?: Extension;
+  theme?: Extension;
+}
+
+export default ({ doc, parentEl, extentions, theme }: Props) => {
   return new EditorView({
     state: EditorState.create({
       doc,
       extensions: [
         BASIC_SETUP,
 
-        THEME,
+        (theme ?? THEME),
         HIGHTLIGHT_STYLE,
 
         keymap.of([indentWithTab]),
