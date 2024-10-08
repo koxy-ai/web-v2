@@ -5,7 +5,7 @@ import { FlowStore } from "@/utils/flow";
 import { useEffect, useState } from "react";
 import NodeComp from "./node";
 import dynamic from "next/dynamic";
-import { CodeGenerator } from "@/utils/code-generator";
+import { CodeReplacer } from "@/utils/code-replacer";
 
 const Editor = dynamic(() => import("./editor/Editor"));
 
@@ -33,13 +33,9 @@ export default function Canvas({ path, flow }: Props) {
     }
   }, [flow]);
 
-  const generator = new CodeGenerator(
+  const generator = new CodeReplacer(
     "const main = (name: string): string => (<<KOXY_INSERT_VALUE>>)"
   );
-
-  /**<<KOXY_INSERT_VALUE>>
-
-    const main = (): string => variable; */
 
   if (!data) return null;
 
@@ -72,7 +68,13 @@ export default function Canvas({ path, flow }: Props) {
         path={path}
         update={(d: Flow) => store.set(d)}
       />
-      <Editor generator={generator} />
+      <div className="w-64 h-64">
+        <Editor
+          replacer={generator}
+          showLineNumbers={false}
+          showDiagnostics={["error", "warning"]}
+        />
+      </div>
     </div>
   );
 }

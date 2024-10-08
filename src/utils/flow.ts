@@ -38,25 +38,31 @@ export class FlowStore {
     const store = this;
 
     const get = function <T = any>(key: string) {
-      return store.getState<T>(store.nodeStateKey(node, key))
-    }
+      return store.getState<T>(store.nodeStateKey(node, key));
+    };
 
     const set = function <T = any>(key: string, data: T) {
       store.setState<T>(store.nodeStateKey(node, key), data);
-    }
+    };
 
-    const onUpdate = function <T = any>(key: string, callback: (data: T) => void) {
+    const onUpdate = function <T = any>(
+      key: string,
+      callback: (data: T) => void
+    ) {
       store.onStateUpdate<T>(store.nodeStateKey(node, key), callback);
-    }
+    };
 
     const use = function <T = any>(key: string, defaultV: T): T {
-      const res = store.useNodeState<T>(node, key, defaultV)
+      const res = store.useNodeState<T>(node, key, defaultV);
       return res;
-    }
+    };
 
     return {
-      get, set, onUpdate, use
-    }
+      get,
+      set,
+      onUpdate,
+      use,
+    };
   }
 
   setState<T = any>(key: string, data: T) {
@@ -155,6 +161,8 @@ export class FlowStore {
     if (node.type === "return") return null;
 
     const next = node.type === "condition" ? node.next.default : node.next;
+    if (!next) return null;
+
     const nextNode = this.flow.nodes.find((n) => n.name === next);
     if (!nextNode) return null;
 
@@ -164,11 +172,17 @@ export class FlowStore {
   getConditionChildren(node: ConditionNode): {
     success: KoxyNode | null;
     fail: KoxyNode | null;
+    default: KoxyNode | null;
   } {
     const success = this.flow.nodes.find((n) => n.name === node.next.success);
     const failed = this.flow.nodes.find((n) => n.name === node.next.fail);
+    const next = this.flow.nodes.find((n) => n.name === node.next.default);
 
-    return { success: success || null, fail: failed || null };
+    return {
+      success: success || null,
+      fail: failed || null,
+      default: next || null,
+    };
   }
 
   hasConditionParent(node: KoxyNode): boolean {

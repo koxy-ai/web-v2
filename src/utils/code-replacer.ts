@@ -1,4 +1,4 @@
-export class CodeGenerator {
+export class CodeReplacer {
   source: string;
   static replacer: string = "<<KOXY_INSERT_VALUE>>";
 
@@ -8,7 +8,7 @@ export class CodeGenerator {
 
   replace(value: string): string {
     let newCode = String(this.source);
-    newCode = newCode.replace(CodeGenerator.replacer, value);
+    newCode = newCode.replace(CodeReplacer.replacer, value);
 
     return newCode;
   }
@@ -19,16 +19,16 @@ export class CodeGenerator {
   }
 
   removeSource(code: string) {
-    const [first, replacer, second] = code.split(CodeGenerator.replacer);
+    const [first, replacer, second] = code.split(CodeReplacer.replacer);
     return (first || "") + (second || "");
   }
 
   skip() {
-    if (this.source.startsWith(CodeGenerator.replacer)) {
+    if (this.source.startsWith(CodeReplacer.replacer)) {
       return 0;
     }
 
-    const [source] = this.source.split(CodeGenerator.replacer);
+    const [source] = this.source.split(CodeReplacer.replacer);
 
     return source.length;
   }

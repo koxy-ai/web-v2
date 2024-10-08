@@ -18,12 +18,17 @@ import type { Tooltip } from "@codemirror/tooltip";
 import Codemirror from "./codemirror";
 import { useEffect, useRef, useState } from "react";
 import type { Extension, Text } from "@codemirror/state";
-import { CodeGenerator } from "@/utils/code-generator";
+import { CodeReplacer } from "@/utils/code-replacer";
 
 interface Props {
   doc?: string;
-  generator?: CodeGenerator;
+  replacer?: CodeReplacer;
   theme?: Extension;
+  showLineNumbers?: boolean;
+  fallback?: string;
+  showDiagnostics?: ("info" | "error" | "warning")[];
+  width?: string;
+  height?: string;
 }
 
 interface Doc {
@@ -34,7 +39,15 @@ interface Doc {
 const emitter = new EventEmitter();
 const asyncdebounce = debounceAsync;
 
-export default function Editor({ doc, generator, theme }: Props) {
+export default function Editor({
+  doc,
+  replacer,
+  theme,
+  showLineNumbers,
+  fallback,
+  showDiagnostics = [],
+}: Props) {
+  const [errors, setErrors] = useState<string[]>([]);
   const ref = useRef<HTMLDivElement | null>(null);
   let contentLength = 0;
 
@@ -50,8 +63,9 @@ export default function Editor({ doc, generator, theme }: Props) {
 
       editor = Codemirror({
         parentEl: ref.current,
-        doc: doc ?? "// #Koxy.use(Typescript)",
+        doc: doc ?? "",
         theme,
+        showLineNumbers,
         extentions: [
           EditorView.updateListener.of(
             debounce((update: ViewUpdate) => {
@@ -61,26 +75,33 @@ export default function Editor({ doc, generator, theme }: Props) {
                   length: update.state.doc.length,
                 };
 
-                if (!doc || doc.length < 1) return;
+                if (!doc || doc.length < 1 || doc.text.join("\n").length < 1) {
+                  if (fallback) {
+                    doc.text = [...fallback.split("\n")];
+                    doc.length = fallback.length;
+                  } else {
+                    return;
+                  }
+                }
 
-                if (generator) {
-                  const text = generator.removeSource(doc.text.join("\n"));
+                if (replacer) {
+                  const text = replacer.removeSource(doc.text.join("\n"));
 
-                  doc.text = [...generator.apply(text).split("\n")];
+                  doc.text = [...replacer.apply(text).split("\n")];
                   doc.length = doc.text.join("\n").length;
                 }
 
                 tsServer.postMessage({
                   event: "updateText",
                   details: doc ?? {
-                    text: ["// Koxy.use(Typescript)"],
-                    length: "// #Koxy.use(Typescript)".length,
+                    text: [""],
+                    length: 0,
                   },
                 });
               }
 
               contentLength = update.state.doc.length;
-              }, 150)
+            }, 150)
           ),
 
           autocompletion({
@@ -91,7 +112,6 @@ export default function Editor({ doc, generator, theme }: Props) {
                   ctx: CompletionContext
                 ): Promise<CompletionResult | null> => {
                   let { pos } = ctx;
-                  // pos += 39;
 
                   try {
                     tsServer.postMessage({
@@ -139,33 +159,37 @@ export default function Editor({ doc, generator, theme }: Props) {
               { state }: EditorView,
               pos: number
             ): Promise<Tooltip | null> => {
-              const skip = generator?.skip() ?? 0;
-              console.log(pos + skip);
+              try {
+                const skip = replacer?.skip() ?? 0;
 
-              tsServer.postMessage({
-                event: "tooltip-request",
-                details: { pos: pos + skip },
-              });
-
-              const { result: quickInfo, tootltipText }: any =
-                await new Promise((resolve) => {
-                  emitter.on("tooltip-results", (completions: any) => {
-                    resolve(completions);
-                  });
+                tsServer.postMessage({
+                  event: "tooltip-request",
+                  details: { pos: pos + skip },
                 });
 
-              if (!quickInfo) return null;
+                const { result: quickInfo, tootltipText }: any =
+                  await new Promise((resolve) => {
+                    emitter.on("tooltip-results", (completions: any) => {
+                      resolve(completions);
+                    });
+                  });
 
-              return {
-                pos,
-                create() {
-                  const dom = document.createElement("div");
-                  dom.setAttribute("class", "cm-quickinfo-tooltip");
-                  dom.textContent = tootltipText;
+                if (!quickInfo) return null;
 
-                  return { dom };
-                },
-              };
+                return {
+                  pos,
+                  create() {
+                    const dom = document.createElement("div");
+                    dom.setAttribute("class", "cm-quickinfo-tooltip");
+                    dom.textContent = tootltipText;
+
+                    return { dom };
+                  },
+                };
+              } catch (err) {
+                console.error("Error in tooltip:", err);
+                return null;
+              }
             },
             {
               hideOnChange: true,
@@ -174,27 +198,51 @@ export default function Editor({ doc, generator, theme }: Props) {
 
           linter(
             async (view: EditorView): Promise<Diagnostic[]> => {
-              tsServer.postMessage({
-                event: "lint-request",
-                details: [],
-              });
-
-              const diagnostics: Diagnostic[] = await new Promise((resolve) => {
-                emitter.on("lint-results", (completions: any) => {
-                  resolve(completions as Diagnostic[]);
+              try {
+                tsServer.postMessage({
+                  event: "lint-request",
+                  details: [],
                 });
-              });
 
-              if (!diagnostics || contentLength < 1) return [];
+                const diagnostics: Diagnostic[] = await new Promise(
+                  (resolve) => {
+                    emitter.on("lint-results", (completions: any) => {
+                      resolve(completions as Diagnostic[]);
+                    });
+                  }
+                );
 
-              for (const diag of diagnostics) {
-                if (diag.from > contentLength || diag.to > contentLength) {
-                  diag.from = 0;
-                  diag.to = 1;
+                if (!diagnostics || contentLength < 1) return [];
+                const wanted: Diagnostic[] = [];
+
+                for (const diag of diagnostics) {
+                  if (
+                    showDiagnostics.length > 1 &&
+                    showDiagnostics.indexOf(diag.severity) === -1
+                  ) {
+                    continue;
+                  }
+
+                  if (diag.from > contentLength || diag.to > contentLength) {
+                    diag.from = 0;
+                    diag.to = 1;
+                  }
+
+                  if (diag.from < 0) diag.from = 0;
+                  if (diag.to < 1) diag.to = 1;
+
+                  if (diag.severity === "error") {
+                    setErrors(prev => [...prev, diag.message]);
+                  }
+
+                  wanted.push(diag);
                 }
-              }
 
-              return diagnostics;
+                return wanted;
+              } catch (err) {
+                console.error("Error in linter:", err);
+                return [];
+              }
             },
             {
               delay: 400,
@@ -206,11 +254,15 @@ export default function Editor({ doc, generator, theme }: Props) {
       emitter.on("ready", () => {
         console.log("ts-server is ready");
 
-        // console.log("STATE DOC", editor.state.doc);
-        // tsServer.postMessage({
-        //   event: "updateText",
-        //   details: editor.state.doc,
-        // });
+        const content = replacer?.apply("undefined") ?? "";
+
+        tsServer.postMessage({
+          event: "updateText",
+          details: {
+            text: content.split("\n"),
+            length: content.length,
+          },
+        });
       });
 
       tsServer.addEventListener(
@@ -230,6 +282,16 @@ export default function Editor({ doc, generator, theme }: Props) {
   }, []);
 
   return (
-    <div className="text-sans border rounded-lg" id="editor" ref={ref}></div>
+    <div
+      className="text-sans border rounded-lg resize-none overflow-hidden"
+      id="editor"
+      ref={ref}
+      style={{
+        maxWidth: "75vw",
+        width: "20rem",
+        maxHeight: "20rem",
+        height: "20rem",
+      }}
+    ></div>
   );
 }

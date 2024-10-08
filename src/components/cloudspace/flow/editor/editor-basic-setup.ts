@@ -1,18 +1,23 @@
-import {keymap, highlightSpecialChars, drawSelection, highlightActiveLine} from "@codemirror/view"
-import {Extension, EditorState} from "@codemirror/state"
-import {history, historyKeymap} from "@codemirror/history"
-import {foldGutter, foldKeymap} from "@codemirror/fold"
-import {indentOnInput} from "@codemirror/language"
-import {lineNumbers, highlightActiveLineGutter} from "@codemirror/gutter"
-import {defaultKeymap} from "@codemirror/commands"
-import {bracketMatching} from "@codemirror/matchbrackets"
-import {closeBrackets, closeBracketsKeymap} from "@codemirror/closebrackets"
-import {searchKeymap, highlightSelectionMatches} from "@codemirror/search"
-import {autocompletion, completionKeymap} from "@codemirror/autocomplete"
-import {commentKeymap} from "@codemirror/comment"
-import {rectangularSelection} from "@codemirror/rectangular-selection"
-import {defaultHighlightStyle} from "@codemirror/highlight"
-import {lintKeymap} from "@codemirror/lint"
+import {
+  keymap,
+  highlightSpecialChars,
+  drawSelection,
+  highlightActiveLine,
+} from "@codemirror/view";
+import { Extension, EditorState } from "@codemirror/state";
+import { history, historyKeymap } from "@codemirror/history";
+import { foldGutter, foldKeymap } from "@codemirror/fold";
+import { indentOnInput } from "@codemirror/language";
+import { highlightActiveLineGutter } from "@codemirror/gutter";
+import { defaultKeymap } from "@codemirror/commands";
+import { bracketMatching } from "@codemirror/matchbrackets";
+import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
+import { searchKeymap, highlightSelectionMatches } from "@codemirror/search";
+import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
+import { commentKeymap } from "@codemirror/comment";
+import { rectangularSelection } from "@codemirror/rectangular-selection";
+import { defaultHighlightStyle } from "@codemirror/highlight";
+import { lintKeymap } from "@codemirror/lint";
 
 /// This is an extension value that just pulls together a whole lot of
 /// extensions that you might want in a basic editor. It is meant as a
@@ -50,13 +55,12 @@ import {lintKeymap} from "@codemirror/lint"
 /// an array literal), copy it into your own code, and adjust it as
 /// desired.
 export const BASIC_SETUP: Extension = [
-  lineNumbers(),
   highlightActiveLineGutter(),
   highlightSpecialChars(),
-  history(),  
+  history(),
   foldGutter({
-      openText: "expand_more",
-      closedText: "chevron_right"
+    openText: "expand_more",
+    closedText: "chevron_right",
   }),
   drawSelection(),
   EditorState.allowMultipleSelections.of(true),
@@ -76,12 +80,12 @@ export const BASIC_SETUP: Extension = [
     ...foldKeymap,
     ...commentKeymap,
     ...completionKeymap,
-    ...lintKeymap
-  ])
-]
+    ...lintKeymap,
+  ]),
+];
 
-export {EditorView} from "@codemirror/view";
-export {EditorState} from "@codemirror/state";
+export { EditorView } from "@codemirror/view";
+export { EditorState } from "@codemirror/state";
 
 /**
 This is an extension value that just pulls together a whole lot of

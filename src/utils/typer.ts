@@ -12,7 +12,9 @@ export class Typer {
 
     for (const prop of input.properties) {
       const propType = Typer.solveType(prop[0]);
-      type += `${prop[0].key}: ${propType},`;
+      type += prop[0].required
+        ? `${prop[0].key}: ${propType},`
+        : `${prop[0].key}?: ${propType},`;
     }
 
     type = type.slice(0, -1);
@@ -33,11 +35,31 @@ export class Typer {
       typeName = Typer.capitalFirst(prefix) + typeName;
     }
 
-    if (input.type !== "object") {
-      return !inner ? `type ${typeName} = ${type};` : `${input.key}: ${type}`;
+    const innerOptional = input.required ? "" : "?";
+    const outerOptional = input.required ? "" : " | undefined";
+
+    return !inner
+      ? `type ${typeName} = ${type}${outerOptional};`
+      : `${input.key}${innerOptional}: ${type}`;
+  }
+
+  static generateNodeSpecType(
+    node: KoxyNode,
+    focus: "inputs" | "outputs",
+    varName?: string
+  ): string {
+    let code = "";
+    const asVar = typeof varName === "string" && varName.length > 0;
+
+    code += asVar ? `interface ${Typer.capitalFirst(varName)} {` : "{";
+    for (const [input] of node[focus]) {
+      code += Typer.generateTypeCode(input, node.name, true);
     }
 
-    return !inner ? `interface ${typeName} ${type};` : `${input.key}: ${type}`;
+    code += "}";
+    if (asVar) code += ";\n";
+
+    return code;
   }
 
   static generateNodeTypesCode(node: KoxyNode | StartNode): string {
