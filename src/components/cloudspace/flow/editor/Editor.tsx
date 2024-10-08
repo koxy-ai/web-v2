@@ -130,7 +130,6 @@ export default function Editor({
                       return null;
                     }
 
-                    console.log("completions", completions);
                     return completeFromList(
                       // @ts-ignore
                       completions.entries.map((c, i) => {
@@ -235,9 +234,14 @@ export default function Editor({
                     setErrors(prev => [...prev, diag.message]);
                   }
 
+                  if (typeof diag.message === "object") {
+                    diag.message = (diag.message as any).messageText;
+                  }
+
                   wanted.push(diag);
                 }
 
+                console.log("LINTER", wanted);
                 return wanted;
               } catch (err) {
                 console.error("Error in linter:", err);
