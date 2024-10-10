@@ -12,7 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import Canvas from "./canvas";
 
-export default function FlowMain({ data }: CompCall) {
+export default function FlowMain({ api, data }: CompCall) {
   data = data as { flow: Flow; path: string };
   const [state, setState] = useState(data);
 
@@ -81,7 +81,7 @@ export default function FlowMain({ data }: CompCall) {
       </div>
       <div className="w-full h-full flex flex-col items-center p-6 relative overflow-auto mt-10">
         <DotPattern className="opacity-20 -top-2 -left-2" />
-        <Canvas flow={state.flow} path={state.path} />
+        <Canvas api={api} flow={state.flow} path={state.path} />
         <div className="h-screen"></div>
       </div>
     </>

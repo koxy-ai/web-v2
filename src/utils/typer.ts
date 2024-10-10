@@ -3,8 +3,12 @@ import { Input, KoxyNode, StartNode } from "@/types/koxy";
 export class Typer {
   constructor() {}
 
-  static solveType(input: Input) {
+  static solveType(input: Input): string {
     if (input.type !== "object") {
+      if (input.type === "array") {
+        return `${Typer.solveType(input.items)}[]`;
+      }
+
       return input.type;
     }
 

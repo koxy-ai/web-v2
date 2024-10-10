@@ -1,4 +1,5 @@
 import {
+  Api,
   ConditionNode,
   Flow,
   FunctionalNode,
@@ -8,12 +9,14 @@ import {
 } from "@/types/koxy";
 
 export class FlowStore {
+  api: Api;
   flow: Flow;
   state: Record<string, any> = {};
   stateListeners: Record<string, Function[]> = {};
   mainListener?: (f: Flow) => any;
 
-  constructor(flow?: Flow, mainListener?: (f: Flow) => any) {
+  constructor(api: Api, flow?: Flow, mainListener?: (f: Flow) => any) {
+    this.api = api;
     this.flow = flow || ({} as Flow);
     this.mainListener = mainListener;
   }
@@ -223,5 +226,17 @@ export class FlowStore {
 
   validString(value: string) {
     return typeof value === "string" && value.length > 0;
+  }
+
+  // --- DB & collections
+
+  getCollections() {
+    return this.api.collections ?? [];
+  }
+
+  getDBCollectionsNames(): string[] {
+    if (!this.api.collections) return [];
+
+    return this.api.collections.map((c) => c.name);
   }
 }

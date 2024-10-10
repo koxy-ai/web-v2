@@ -1,6 +1,6 @@
 "use client";
 
-import { Flow } from "@/types/koxy";
+import { Api, Flow } from "@/types/koxy";
 import { FlowStore } from "@/utils/flow";
 import { useEffect, useState } from "react";
 import NodeComp from "./node";
@@ -10,21 +10,22 @@ import { CodeReplacer } from "@/utils/code-replacer";
 const Editor = dynamic(() => import("./editor/Editor"));
 
 interface Props {
+  api: Api;
   path: string;
   flow: Flow;
 }
 
 const stores: Record<string, FlowStore> = {};
 
-export default function Canvas({ path, flow }: Props) {
-  const [store, setStore] = useState<FlowStore>(new FlowStore(flow));
+export default function Canvas({ api, path, flow }: Props) {
+  const [store, setStore] = useState<FlowStore>(new FlowStore(api, flow));
   const [data, setData] = useState<Flow>();
 
   useEffect(() => {
     const flowPath = `${path}/${flow.id}`;
 
     if (!stores[flowPath]) {
-      const newStore = new FlowStore(flow, () => setData(flow));
+      const newStore = new FlowStore(api, flow, () => setData(flow));
       stores[flowPath] = newStore;
       setStore(stores[flowPath]);
     } else {
