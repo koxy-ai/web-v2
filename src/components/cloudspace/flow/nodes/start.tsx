@@ -5,7 +5,7 @@ import { StartNode } from "@/types/koxy";
 import { FlowStore } from "@/utils/flow";
 import { IconChevronDown, IconDots } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { NodeProps } from "./types";
+import { NodeProps } from "../types";
 import NodeLayout from "./layout";
 
 export default function StartNodeComp({

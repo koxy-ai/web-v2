@@ -65,7 +65,7 @@ export default function NodeLayout({
             />
           </Button.Icon>
         </Button.Root>
-        <div className="w-full truncate">{node.label}</div>
+        <div className="w-full truncate opacity-80">{node.label}</div>
         <div className="flex items-center min-w-max gap-2">
           <Button.Root variant="ghost" intent="gray" size="xs">
             <Button.Icon type="only">

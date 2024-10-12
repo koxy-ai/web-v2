@@ -168,7 +168,7 @@ export default function CloudspaceLayout({ team, project }: Props) {
           defaultSize={82}
         >
           <div className="flex flex-col pt-14 min-h-screen max-h-screen overflow-auto no-scrollbar">
-            <div className="z-10 w-full min-h-10 max-h-10 border-b-1 border-border/60 flex bg-gray-900/10 overflow-auto no-scrollbar absolute backdrop-blur-md">
+            <div className="z-20 w-full min-h-10 max-h-10 border-b-1 border-border/60 flex bg-gray-900/10 overflow-auto no-scrollbar absolute backdrop-blur-md">
               {Object.keys(comps).map((key, index) => (
                 <div key={`tab-${key}-${index}`} className="flex">
                   <div

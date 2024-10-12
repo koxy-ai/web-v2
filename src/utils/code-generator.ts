@@ -20,15 +20,22 @@ export class CodeGenerator {
   }
 
   private generateDb() {
-    const names = this.store
+    const collections = this.store.getCollections();
+
+    let names = this.store
       .getDBCollectionsNames()
       .map((c) => `"${c}"`)
       .join("|");
+
+    if (names.length < 1) {
+      names = "any";
+    }
+
     this.code = `type KVCollectionsNames = ${names};\n${this.code}`;
 
     let collectionsCode = "interface KVCollections {\n";
 
-    for (const collection of this.store.getCollections()) {
+    for (const collection of collections) {
       let code = `${collection.name}: {\n`;
 
       for (const type of collection.schema) {
@@ -40,7 +47,7 @@ export class CodeGenerator {
       collectionsCode += code;
     }
 
-    this.code = `${collectionsCode};\n${this.code}`;
+    this.code = `${collectionsCode}\n};\n${this.code}`;
 
     this.code += `db: {
       get: <T extends KVCollectionsNames>(collection: T, key: string[]) => Promise<KVCollections[T]>,
@@ -62,7 +69,7 @@ export class CodeGenerator {
     direction: "up" | "down"
   ): void {
     if (node.type === "start") return;
-    if (node.outputs.length < 1) return;
+    if (!node.outputs || node.outputs.length < 1) return;
     if (this.solved.indexOf(node) !== -1) return;
 
     if (node.type === "condition") {
@@ -105,7 +112,8 @@ export class CodeGenerator {
     console.log("Generating context for node:", node.name);
     this.code = "interface KoxyType {\n";
 
-    this.code += `"headers": Record<string, string>`;
+    this.code += `headers: Record<string, string>;\n`;
+    this.code += `body: Record<string, any>;\n`;
 
     this.generateLogger();
     this.generateDb();

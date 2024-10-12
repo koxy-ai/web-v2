@@ -19,6 +19,7 @@ import Codemirror from "./codemirror";
 import { useEffect, useRef, useState } from "react";
 import type { Extension, Text } from "@codemirror/state";
 import { CodeReplacer } from "@/utils/code-replacer";
+import { IconLoader } from "@tabler/icons-react";
 
 interface Props {
   doc?: string;
@@ -47,6 +48,7 @@ export default function Editor({
   fallback,
   showDiagnostics = [],
 }: Props) {
+  const [readyState, setReady] = useState<boolean>(false);
   const [errors, setErrors] = useState<string[]>([]);
   const ref = useRef<HTMLDivElement | null>(null);
   let contentLength = 0;
@@ -231,7 +233,7 @@ export default function Editor({
                   if (diag.to < 1) diag.to = 1;
 
                   if (diag.severity === "error") {
-                    setErrors(prev => [...prev, diag.message]);
+                    setErrors((prev) => [...prev, diag.message]);
                   }
 
                   if (typeof diag.message === "object") {
@@ -257,6 +259,7 @@ export default function Editor({
 
       emitter.on("ready", () => {
         console.log("ts-server is ready");
+        setReady(true);
 
         const content = replacer?.apply("undefined") ?? "";
 
@@ -286,16 +289,25 @@ export default function Editor({
   }, []);
 
   return (
-    <div
-      className="text-sans border rounded-lg resize-none overflow-hidden"
-      id="editor"
-      ref={ref}
-      style={{
-        maxWidth: "75vw",
-        width: "20rem",
-        maxHeight: "20rem",
-        height: "20rem",
-      }}
-    ></div>
+    <>
+      {!readyState && (
+        <div className="p-10 flex items-center justify-center">
+          <IconLoader size={15} className="animate-spin" />
+        </div>
+      )}
+      <div
+        className={`text-sans border rounded-lg resize-none z-20 overflow-hidden pr-6 bg-[#0f0f0f] ${
+          !readyState ? "hidden" : ""
+        }`}
+        id="editor"
+        ref={ref}
+        style={{
+          maxWidth: "20vw",
+          width: "20rem",
+          maxHeight: "15rem",
+          height: "15rem",
+        }}
+      ></div>
+    </>
   );
 }

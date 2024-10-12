@@ -7,3 +7,10 @@ export interface NodeProps<T = KoxyNode> {
   store: FlowStore;
   update: (d: Flow) => any;
 }
+
+export interface NodeSimpleInputProps {
+  node: KoxyNode;
+  updateValue: (content: string) => any;
+  store: FlowStore;
+  value?: string;
+}

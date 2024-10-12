@@ -35,13 +35,13 @@ export default function Canvas({ api, path, flow }: Props) {
   }, [flow]);
 
   const generator = new CodeReplacer(
-    "const main = (name: string): string => (<<KOXY_INSERT_VALUE>>)"
+    "const main = async (name: string): Promise<string> => (<<KOXY_INSERT_VALUE>>)"
   );
 
   if (!data) return null;
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center z-10">
       <NodeComp
         node={data.start}
         store={store}
