@@ -53,31 +53,34 @@ export default function CloudspaceLayout({ team, project }: Props) {
   const update = (
     payload: UpdateProjectProps | UpdateApiProps,
     callback?: Function
-  ) => {
+  ): Project => {
     const { type, data } = payload;
 
     if (type === "project") {
       setProjectState((prev) => ({ ...prev, ...data }));
+      return {...projectState, ...data};
     } else if (type === "api") {
       setApi((prev) => ({ ...prev, ...data }));
+      return {...projectState, api: JSON.stringify({...api, ...data})};
     }
 
     setUpdateId(`${Date.now()}`);
     if (callback) callback();
+
+    return projectState;
   };
 
-  const saveChanges = async () => {
+  const saveChanges = async (data: Project) => {
     if (loading) return;
 
     setLoading(true);
-    const newProject = { ...projectState, api: JSON.stringify(api) };
 
     try {
-      const res = await updateCloudspace(team.id, newProject);
+      const res = await updateCloudspace(team.id, data);
 
       if (res.success) {
-        setProjectState(newProject);
-        toast.success("Saved changes");
+        // setProjectState(data);
+        // toast.success("Saved changes");
       } else {
         toast.error(res.error);
       }

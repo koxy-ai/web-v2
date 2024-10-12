@@ -90,4 +90,24 @@ export class Typer {
     const rest = value.slice(1);
     return first + rest;
   }
+
+  static readInputValueType(value: string): string {
+    if (!value.includes(":K::")) {
+      return "any";
+    }
+
+    const [type] = value.split(":K::");
+
+    return type;
+  }
+
+  static readInputValue(value: string): string {
+    if (!value.includes(":K::")) {
+      return value;
+    }
+
+    const [_type, content] = value.split(":K::");
+
+    return content;
+  }
 }

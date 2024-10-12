@@ -1,10 +1,11 @@
 "use client";
 
 import Button from "@/components/tailus-ui/Button";
-import { KoxyNode, StartNode } from "@/types/koxy";
+import { CompCall, Flow, KoxyNode, StartNode } from "@/types/koxy";
 import { FlowStore } from "@/utils/flow";
 import { IconChevronDown, IconDots } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import NodeInputEditor from "../node-input-editor";
 
 interface Props {
   node: KoxyNode | StartNode;
@@ -15,6 +16,7 @@ interface Props {
   };
   children: React.ReactNode;
   defaultOpen?: boolean;
+  update: (f: Flow) => any;
 }
 
 export default function NodeLayout({
@@ -23,6 +25,7 @@ export default function NodeLayout({
   store,
   children,
   defaultOpen,
+  update
 }: Props) {
   const state = store.nodeState(node);
 
@@ -77,6 +80,17 @@ export default function NodeLayout({
       {open && (
         <>
           <div className="w-full border-t-1 border-border/60"></div>
+          <div className="p-3 flex flex-col gap-2">
+            {node.inputs.sort((a, b) => a[0].index - b[0].index).map((input, index) => (
+              <NodeInputEditor
+                node={node}
+                input={input}
+                store={store}
+                key={`nodeinput-${node.id}-${index}`}
+                update={update}
+              />
+            ))}
+          </div>
           {children}
         </>
       )}

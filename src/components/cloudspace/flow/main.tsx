@@ -12,13 +12,26 @@ import {
 import { useState, useEffect } from "react";
 import Canvas from "./canvas";
 
-export default function FlowMain({ api, data }: CompCall) {
+export default function FlowMain({ api, data, update }: CompCall) {
   data = data as { flow: Flow; path: string };
   const [state, setState] = useState(data);
+
+  const updateFlow = (flow: Flow) => {
+    setState((prev) => ({ ...prev, flow }));
+    update({ type: "api", data: { flows: { [state.path]: [flow] } } });
+  };
 
   useEffect(() => {
     setState(data);
   }, [data]);
+
+  if (!data.flow) {
+    return (
+      <div className="w-full p-36 flex items-center justify-center text-sm">
+        API route {"doesn't"} exist
+      </div>
+    )
+  }
 
   return (
     <>
@@ -81,7 +94,7 @@ export default function FlowMain({ api, data }: CompCall) {
       </div>
       <div className="w-full h-full flex flex-col items-center p-6 relative overflow-auto mt-10">
         <DotPattern className="opacity-20 -top-2 -left-2 z-0" />
-        <Canvas api={api} flow={state.flow} path={state.path} />
+        <Canvas api={api} flow={state.flow} path={state.path} updateFlow={updateFlow} />
         <div className="h-screen"></div>
       </div>
     </>

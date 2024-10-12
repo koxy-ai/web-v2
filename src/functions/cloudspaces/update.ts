@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Project } from "@prisma/client";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 export default async function updateCloudspace(
   teamId: string,
@@ -12,6 +13,14 @@ export default async function updateCloudspace(
   const session = await getServerSession(authOptions);
   if (!session) {
     return { success: false, error: "Not logged in" };
+  }
+
+  const team = await db.team.findUnique({
+    where: { id: teamId },
+  });
+
+  if (!team) {
+    return { success: false, error: "Not authorized" };
   }
 
   try {
@@ -29,5 +38,8 @@ export default async function updateCloudspace(
     return { success: false, error: "Something went wrong" };
   }
 
+  // await revalidatePath(`/app/${team.uniqueName}`);
+  await revalidatePath(`/app/`);
+  // await revalidatePath(`/app/${team.uniqueName}/cloudspace/${project.id}`);
   return { success: true, data: null };
 }

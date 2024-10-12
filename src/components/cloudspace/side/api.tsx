@@ -7,7 +7,12 @@ import NewApiRoute from "../new-api-route";
 import Button from "@/components/tailus-ui/Button";
 import { FlowStructure } from "./api-flow-viewer";
 
-export default function SideApi({ api, openTab }: CompCall) {
+export default function SideApi({
+  api,
+  openTab,
+  update,
+  saveChanges,
+}: CompCall) {
   const n = Object.keys(api.flows);
 
   if (n.length < 1) {
@@ -37,7 +42,12 @@ export default function SideApi({ api, openTab }: CompCall) {
         </Button.Icon>
         <Button.Label className="text-xs">New API Route</Button.Label>
       </Button.Root>
-      <FlowStructure api={api} openTab={openTab} />
+      <FlowStructure
+        api={api}
+        openTab={openTab}
+        update={update}
+        saveChanges={saveChanges}
+      />
     </div>
   );
 }

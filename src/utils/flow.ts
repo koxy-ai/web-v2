@@ -104,21 +104,31 @@ export class FlowStore {
     const newFlow = this.copy();
     newFlow.start = start;
     this.set(newFlow);
+
+    return newFlow;
   }
 
   updateEnd(end: ReturnNode) {
     const newFlow = this.copy();
     newFlow.end = end;
     this.set(newFlow);
+
+    return newFlow;
   }
 
-  updateNode(node: KoxyNode) {
+  updateNode(node: KoxyNode | StartNode) {
+    if (node.type === "start") return this.updateStart(node);
+    if (node.type === "return" && node.id === this.flow.end.id) {
+      return this.updateEnd(node);
+    }
+
     const newFlow = this.copy();
     const nodes = newFlow.nodes.filter((n) => n.name !== node.name);
     nodes.push(node);
     newFlow.nodes = nodes;
 
     this.set(newFlow);
+    return newFlow;
   }
 
   addNode(

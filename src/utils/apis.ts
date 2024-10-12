@@ -50,6 +50,7 @@ export const sampleRoute = (
       inputs: [
         [
           {
+            index: 0,
             type: "number",
             key: "status",
             label: "Status",
@@ -63,6 +64,7 @@ export const sampleRoute = (
         ],
         [
           {
+            index: 1,
             type: "number",
             key: "body",
             label: "Body",

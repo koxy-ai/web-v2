@@ -68,6 +68,7 @@ interface UntypedInput {
 
   validationRegex?: string;
   default?: any;
+  index: number;
 }
 
 interface BaseInput extends UntypedInput {
@@ -204,7 +205,7 @@ export interface CompCall {
   project: Project;
   api: Api;
   openTab: (id: string, comp: CompRes, data?: Record<string, any>) => any;
-  saveChanges: () => any;
+  saveChanges: (project: Project) => any;
   update: (payload: UpdateProjectProps | UpdateApiProps, callback?: Function) => any;
   data?: Record<string, any>;
 }

@@ -15,7 +15,7 @@ export default function StartNodeComp({
   update
 }: NodeProps<StartNode>) {
   return (
-    <NodeLayout node={node} defaultOpen={false} store={store}>
+    <NodeLayout node={node} defaultOpen={false} store={store} update={update}>
       <div
         className="p-2"
         onClick={() =>

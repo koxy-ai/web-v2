@@ -1,13 +1,17 @@
+"use client";
+
 import React, { useState } from "react";
 import { ChevronDown, ChevronRight, Trash } from "lucide-react";
 import { Api, CompCall, Flow } from "@/types/koxy";
-import { IconFolderCode, IconRoute } from "@tabler/icons-react";
+import { IconFolderCode, IconLoader, IconRoute } from "@tabler/icons-react";
 import ContextMenu from "@tailus-ui/ContextMenu";
 import FlowMain from "../flow/main";
 
 interface FlowStructureProps {
   api: Api;
   openTab: CompCall["openTab"];
+  update: CompCall["update"];
+  saveChanges: CompCall["saveChanges"];
 }
 
 const MethodLabel: React.FC<{ method: Flow["method"] }> = ({ method }) => {
@@ -23,45 +27,91 @@ const MethodLabel: React.FC<{ method: Flow["method"] }> = ({ method }) => {
   );
 };
 
-const FlowItem: React.FC<{ flow: Flow; openTab: CompCall["openTab"]; path: string }> = ({
-  flow,
-  openTab,
-  path
-}) => (
-  <ContextMenu.Root>
-    <ContextMenu.Trigger>
-      <div
-        className="pl-2 flex items-center space-x-2 py-1 text-xs opacity-80 hover:bg-gray-900/40 cursor-pointer"
-        onClick={() => openTab(`${flow.name}`, (args: any) => <FlowMain {...args} />, { flow, path })}
-      >
-        <IconRoute className="h-4 w-4 text-gray-400" />
-        <span className="text-gray-300">{flow.name}</span>
-        <MethodLabel method={flow.method} />
-      </div>
-    </ContextMenu.Trigger>
-    <ContextMenu.Portal>
-      <ContextMenu.Content
-        mixed
-        data-shade="950"
-        variant="solid"
-        intent="primary"
-        className=""
-      >
-        <ContextMenu.Item intent="danger" className="text-xs">
-          <Trash className="size-3" />
-          Delete
-        </ContextMenu.Item>
-      </ContextMenu.Content>
-    </ContextMenu.Portal>
-  </ContextMenu.Root>
-);
+const FlowItem: React.FC<{
+  api: Api;
+  flow: Flow;
+  openTab: CompCall["openTab"];
+  path: string;
+  update: CompCall["update"];
+  saveChanges: CompCall["saveChanges"];
+}> = ({ api, flow, openTab, path, update, saveChanges }) => {
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+
+  const deleteFlow = async () => {
+    if (deleteLoading) return;
+    setDeleteLoading(true);
+
+    const newProject = update({
+      type: "api",
+      data: {
+        flows: {
+          ...api.flows,
+          [path]: api.flows[path].filter((f) => f.id !== flow.id),
+        },
+      },
+    });
+    if (newProject) {
+      saveChanges(newProject);
+    }
+
+    setDeleteLoading(false);
+  };
+
+  return (
+    <ContextMenu.Root>
+      <ContextMenu.Trigger>
+        <div
+          className="pl-2 flex items-center space-x-2 py-1 text-xs opacity-80 hover:bg-gray-900/40 cursor-pointer"
+          onClick={() =>
+            openTab(`${flow.name}`, (args: any) => <FlowMain {...args} />, {
+              flow,
+              path,
+            })
+          }
+        >
+          <IconRoute className="h-4 w-4 text-gray-400" />
+          <span className="text-gray-300">{flow.name}</span>
+          <MethodLabel method={flow.method} />
+        </div>
+      </ContextMenu.Trigger>
+      <ContextMenu.Portal>
+        <ContextMenu.Content
+          mixed
+          data-shade="950"
+          variant="solid"
+          intent="primary"
+          className=""
+        >
+          <ContextMenu.Item
+            intent="danger"
+            className="text-xs"
+            disabled={deleteLoading}
+            onClick={deleteFlow}
+          >
+            {!deleteLoading ? (
+              <Trash className="size-3" />
+            ) : (
+              <IconLoader size={13} className="animate-spin" />
+            )}
+            Delete
+          </ContextMenu.Item>
+        </ContextMenu.Content>
+      </ContextMenu.Portal>
+    </ContextMenu.Root>
+  );
+};
 
 const PathItem: React.FC<{
+  api: Api;
   path: string;
   flows: Flow[];
   openTab: CompCall["openTab"];
-}> = ({ path, flows, openTab }) => {
+  update: CompCall["update"];
+  saveChanges: CompCall["saveChanges"];
+}> = ({ api, path, flows, openTab, update, saveChanges }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  if (flows.length < 1) return null;
 
   return (
     <div>
@@ -83,7 +133,15 @@ const PathItem: React.FC<{
       {isOpen && (
         <div className="ml-4 flex flex-col gap-1 pb-2">
           {flows.map((flow) => (
-            <FlowItem key={flow.id} flow={flow} openTab={openTab} path={path} />
+            <FlowItem
+              key={flow.id}
+              flow={flow}
+              openTab={openTab}
+              path={path}
+              update={update}
+              saveChanges={saveChanges}
+              api={api}
+            />
           ))}
         </div>
       )}
@@ -95,11 +153,21 @@ const PathItem: React.FC<{
 export const FlowStructure: React.FC<FlowStructureProps> = ({
   api,
   openTab,
+  update,
+  saveChanges,
 }) => {
   return (
     <div className="flex flex-col gap-1">
       {Object.entries(api.flows).map(([path, flows]) => (
-        <PathItem key={path} path={path} flows={flows} openTab={openTab} />
+        <PathItem
+          key={path}
+          path={path}
+          flows={flows}
+          openTab={openTab}
+          update={update}
+          saveChanges={saveChanges}
+          api={api}
+        />
       ))}
     </div>
   );

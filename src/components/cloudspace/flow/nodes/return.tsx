@@ -9,7 +9,7 @@ export default function ReturnNode({ node, store, update }: NodeProps<ReturnNode
   const generator = new CodeGenerator(store);
 
   return (
-    <NodeLayout node={node} defaultOpen={false} store={store}>
+    <NodeLayout node={node} defaultOpen={false} store={store} update={update}>
       <div className="p-2">node body</div>
     </NodeLayout>
   );

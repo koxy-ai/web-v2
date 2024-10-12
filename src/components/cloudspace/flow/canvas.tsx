@@ -13,11 +13,12 @@ interface Props {
   api: Api;
   path: string;
   flow: Flow;
+  updateFlow: (f: Flow) => any;
 }
 
 const stores: Record<string, FlowStore> = {};
 
-export default function Canvas({ api, path, flow }: Props) {
+export default function Canvas({ api, path, flow, updateFlow }: Props) {
   const [store, setStore] = useState<FlowStore>(new FlowStore(api, flow));
   const [data, setData] = useState<Flow>();
 
@@ -43,12 +44,14 @@ export default function Canvas({ api, path, flow }: Props) {
   return (
     <div className="w-full flex flex-col items-center z-10">
       <NodeComp
+        key={data.start.id}
         node={data.start}
         store={store}
         path={path}
         update={(d: Flow) => {
           store.set(d);
           setData(d);
+          updateFlow(d);
         }}
       />
 
@@ -58,16 +61,25 @@ export default function Canvas({ api, path, flow }: Props) {
             node={node}
             store={store}
             path={path}
-            update={(d: Flow) => store.set(d)}
+            update={(d: Flow) => {
+              store.set(d);
+              setData(d);
+              updateFlow(d);
+            }}
           />
         </div>
       ))}
 
       <NodeComp
+        key={data.end.id}
         node={data.end}
         store={store}
         path={path}
-        update={(d: Flow) => store.set(d)}
+        update={(d: Flow) => {
+          store.set(d);
+          setData(d);
+          updateFlow(d);
+        }}
       />
       <div className="w-64 h-64">
         <Editor

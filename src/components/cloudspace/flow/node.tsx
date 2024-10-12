@@ -16,15 +16,15 @@ interface Props {
 export default function NodeComp({ node, store, path, update }: Props) {
   if (node.type === "start") {
     return (
-        <>
-            <StartNodeComp node={node} store={store} path={path} update={update} />
-            <StraightEdge hasNext={store.validString(node.next)} hasStart />
-        </>
-    )
+      <>
+        <StartNodeComp node={node} store={store} path={path} update={update} />
+        <StraightEdge hasNext={store.validString(node.next)} hasStart />
+      </>
+    );
   }
 
   if (node.type === "return") {
-    return <ReturnNode node={node} store={store} path={path} update={update} />
+    return <ReturnNode node={node} store={store} path={path} update={update} />;
   }
 
   return <></>;

@@ -1,4 +1,4 @@
-import { Flow, KoxyNode } from "@/types/koxy";
+import { Flow, Input, InputUi, KoxyNode, StartNode } from "@/types/koxy";
 import type { FlowStore } from "@/utils/flow";
 
 export interface NodeProps<T = KoxyNode> {
@@ -9,8 +9,9 @@ export interface NodeProps<T = KoxyNode> {
 }
 
 export interface NodeSimpleInputProps {
-  node: KoxyNode;
+  node: KoxyNode | StartNode;
   updateValue: (content: string) => any;
   store: FlowStore;
   value?: string;
+  input: [Input, string, InputUi];
 }

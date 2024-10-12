@@ -22,7 +22,7 @@ export default function NewApiRoute({ saveChanges, update, api }: CompCall) {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const add = () => {
+  const add = async () => {
     if (loading) return;
     setLoading(true);
 
@@ -48,7 +48,7 @@ export default function NewApiRoute({ saveChanges, update, api }: CompCall) {
 
       const newRoute = sampleRoute(path, method, name);
 
-      update(
+      const newProject = update(
         {
           type: "api",
           data: {
@@ -58,8 +58,9 @@ export default function NewApiRoute({ saveChanges, update, api }: CompCall) {
             },
           },
         },
-        saveChanges
       );
+
+      await saveChanges(newProject);
 
       toast.success(`Route created: ${method} ${path}`);
     } catch (err) {
