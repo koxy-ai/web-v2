@@ -1,9 +1,17 @@
 "use client";
 
-import { CompCall, Flow, Input, InputUi, KoxyNode, StartNode } from "@/types/koxy";
+import {
+  CompCall,
+  Flow,
+  Input,
+  InputUi,
+  KoxyNode,
+  StartNode,
+} from "@/types/koxy";
 import { FlowStore } from "@/utils/flow";
 import StringInput from "./string-input";
 import { Typer } from "@/utils/typer";
+import NumberInput from "./number-input";
 
 interface Props {
   node: KoxyNode | StartNode;
@@ -28,13 +36,25 @@ export default function SimpleInput({ node, input, store, update }: Props) {
     update(newFlow);
   };
 
+  if (input[2].type === "number") {
+    return (
+      <NumberInput
+        node={node}
+        input={input}
+        value={Typer.readInputValue(input[1])}
+        store={store}
+        updateValue={updateInputValue}
+      />
+    );
+  }
+
   return (
     <StringInput
       node={node}
       input={input}
       value={Typer.readInputValue(input[1])}
       store={store}
-      updateValue={(v) => updateInputValue(v)}
+      updateValue={updateInputValue}
     />
   );
 }

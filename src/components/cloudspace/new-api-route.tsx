@@ -13,10 +13,17 @@ import Button from "../tailus-ui/Button";
 import { toast } from "sonner";
 import { sampleRoute } from "@/utils/apis";
 import LoadingIcon from "../tailus-ui/Loading";
+import FlowMain from "./flow/main";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 
-export default function NewApiRoute({ saveChanges, update, api }: CompCall) {
+export default function NewApiRoute({
+  closeTab,
+  openTab,
+  saveChanges,
+  update,
+  api,
+}: CompCall) {
   const [method, setMethod] = useState<Method>("GET");
   const [path, setPath] = useState("");
   const [name, setName] = useState("");
@@ -48,19 +55,23 @@ export default function NewApiRoute({ saveChanges, update, api }: CompCall) {
 
       const newRoute = sampleRoute(path, method, name);
 
-      const newProject = update(
-        {
-          type: "api",
-          data: {
-            flows: {
-              ...(api.flows || {}),
-              [path]: [...(api.flows?.[path] || []), newRoute],
-            },
+      const newProject = update({
+        type: "api",
+        data: {
+          flows: {
+            ...(api.flows || {}),
+            [path]: [...(api.flows?.[path] || []), newRoute],
           },
         },
-      );
+      });
 
       await saveChanges(newProject);
+
+      closeTab("new api");
+      openTab(`${newRoute.name}`, (args: CompCall) => <FlowMain {...args} />, {
+        flow: newRoute,
+        path,
+      });
 
       toast.success(`Route created: ${method} ${path}`);
     } catch (err) {

@@ -54,7 +54,7 @@ export const sampleRoute = (
             type: "number",
             key: "status",
             label: "Status",
-            required: false,
+            required: true,
             visible: true,
             default: 200,
             description: "The response status code"
@@ -65,7 +65,7 @@ export const sampleRoute = (
         [
           {
             index: 1,
-            type: "number",
+            type: "string",
             key: "body",
             label: "Body",
             required: false,

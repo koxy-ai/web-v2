@@ -205,6 +205,7 @@ export interface CompCall {
   project: Project;
   api: Api;
   openTab: (id: string, comp: CompRes, data?: Record<string, any>) => any;
+  closeTab: (id: string) => any;
   saveChanges: (project: Project) => any;
   update: (payload: UpdateProjectProps | UpdateApiProps, callback?: Function) => any;
   data?: Record<string, any>;

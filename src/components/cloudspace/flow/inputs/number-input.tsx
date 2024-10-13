@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NodeSimpleInputProps } from "../types";
 import {
   Tooltip,
@@ -10,15 +10,34 @@ import {
 } from "@/components/ui/tooltip";
 import { IconAlertTriangleFilled } from "@tabler/icons-react";
 
-export default function StringInput({
+export default function NumberInput({
   node,
   value,
   updateValue,
   input,
 }: NodeSimpleInputProps) {
   const [inputV, setInputV] = useState(value);
+  const warn = input[0].required && (!value || value.length < 1);
 
-  const warn = input[0].required && (!inputV || inputV.length < 1);
+  const updateNum = (v: number) => {
+    if (input[2].type !== "number") return;
+
+    if (typeof input[2].min === "number") {
+      if (v < input[2].min) {
+        updateValue(input[2].min + "");
+        return;
+      }
+    }
+
+    if (typeof input[2].max === "number") {
+      if (v > input[2].max) {
+        updateValue(input[2].max + "");
+        return;
+      }
+    }
+
+    updateValue(v + "");
+  };
 
   return (
     <div
@@ -29,10 +48,16 @@ export default function StringInput({
       <input
         className={`min-w-0 w-full text-xs h-7 bg-transparent outline-none`}
         placeholder={input[2].placeholder}
-        value={value}
+        value={inputV?.length || 0 > 0 ? Number(inputV) : ""}
+        type="number"
         onInput={(e) => {
-          updateValue(e.currentTarget.value);
           setInputV(e.currentTarget.value);
+
+          if (e.currentTarget.value.length < 1) {
+            return updateValue("");
+          }
+
+          updateNum(Number(e.currentTarget.value));
         }}
       />
       {warn && (
@@ -41,7 +66,7 @@ export default function StringInput({
             <TooltipTrigger>
               <IconAlertTriangleFilled className="w-3 h-3 text-orange-400" />
             </TooltipTrigger>
-            <TooltipContent >This value is required</TooltipContent>
+            <TooltipContent>This value is required</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       )}

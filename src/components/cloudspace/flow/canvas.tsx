@@ -82,11 +82,11 @@ export default function Canvas({ api, path, flow, updateFlow }: Props) {
         }}
       />
       <div className="w-64 h-64">
-        <Editor
+        {/* <Editor
           replacer={generator}
           showLineNumbers={false}
           showDiagnostics={["error", "warning"]}
-        />
+        /> */}
       </div>
     </div>
   );

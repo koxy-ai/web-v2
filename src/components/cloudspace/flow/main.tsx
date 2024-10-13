@@ -18,7 +18,18 @@ export default function FlowMain({ api, data, update }: CompCall) {
 
   const updateFlow = (flow: Flow) => {
     setState((prev) => ({ ...prev, flow }));
-    update({ type: "api", data: { flows: { [state.path]: [flow] } } });
+    update({
+      type: "api",
+      data: {
+        flows: {
+          ...api.flows,
+          [state.path]: [
+            ...api.flows[state.path].filter((f) => f.id !== flow.id),
+            flow,
+          ],
+        },
+      },
+    });
   };
 
   useEffect(() => {
@@ -30,7 +41,7 @@ export default function FlowMain({ api, data, update }: CompCall) {
       <div className="w-full p-36 flex items-center justify-center text-sm">
         API route {"doesn't"} exist
       </div>
-    )
+    );
   }
 
   return (
@@ -94,7 +105,12 @@ export default function FlowMain({ api, data, update }: CompCall) {
       </div>
       <div className="w-full h-full flex flex-col items-center p-6 relative overflow-auto mt-10">
         <DotPattern className="opacity-20 -top-2 -left-2 z-0" />
-        <Canvas api={api} flow={state.flow} path={state.path} updateFlow={updateFlow} />
+        <Canvas
+          api={api}
+          flow={state.flow}
+          path={state.path}
+          updateFlow={updateFlow}
+        />
         <div className="h-screen"></div>
       </div>
     </>

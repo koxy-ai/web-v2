@@ -160,6 +160,7 @@ export default function CloudspaceLayout({ team, project }: Props) {
                 openTab={openTab}
                 update={update}
                 saveChanges={saveChanges}
+                closeTab={closeTab}
               />
             )}
           </div>
@@ -217,6 +218,7 @@ export default function CloudspaceLayout({ team, project }: Props) {
                   update={update}
                   saveChanges={saveChanges}
                   data={compsData[activeComp || ""] || {}}
+                  closeTab={closeTab}
                 />
               )}
             </div>
