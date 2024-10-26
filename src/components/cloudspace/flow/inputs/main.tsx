@@ -12,6 +12,7 @@ import { FlowStore } from "@/utils/flow";
 import StringInput from "./string-input";
 import { Typer } from "@/utils/typer";
 import NumberInput from "./number-input";
+import CustomInputEditor from "./custom";
 
 interface Props {
   node: KoxyNode | StartNode;
@@ -22,7 +23,6 @@ interface Props {
 
 export default function SimpleInput({ node, input, store, update }: Props) {
   const type = Typer.readInputValueType(input[1]);
-  console.log(input);
 
   const updateInputValue = (value: string) => {
     const newFlow = store.updateNode({
@@ -44,6 +44,17 @@ export default function SimpleInput({ node, input, store, update }: Props) {
         value={Typer.readInputValue(input[1])}
         store={store}
         updateValue={updateInputValue}
+      />
+    );
+  }
+
+  if (input[2].type === "custom" || type === "code") {
+    return (
+      <CustomInputEditor
+        node={node}
+        input={input}
+        store={store}
+        update={update}
       />
     );
   }

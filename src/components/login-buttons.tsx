@@ -35,7 +35,7 @@ export default function LoginButtons({ callbackUrl }: Props) {
     <div className="flex flex-col gap-4 md:w-[80%]">
       <Button.Root
         className="w-full text-sm border"
-        intent="neutral"
+        intent="secondary"
         size="md"
         color="primary"
         disabled={getLoading("google")}

@@ -12,7 +12,7 @@ interface Props {
 export default async function Page({ params: { id, cloudspace } }: Props) {
   const session = (await getServerSession(authOptions))!;
 
-  const team = await db.team.findUnique({
+  const team = await db.team.findFirst({
     where: { uniqueName: id },
   });
 

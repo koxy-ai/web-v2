@@ -76,6 +76,10 @@
   /* body {
     @apply bg-background text-foreground;
   } */
+
+  html {
+    font-family: ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";
+  }
 }
 
 @layer utilities {
@@ -93,7 +97,6 @@
     /* Firefox */
   }
 }
-
 
 /* Backgrounds */
 
