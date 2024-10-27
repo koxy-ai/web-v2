@@ -4,7 +4,6 @@ import { LandingHero } from "@/components/landing/hero";
 import { KoxyChip } from "@/components/landing/koxy-chip";
 import {
   IconApi,
-  IconBox,
   IconBrandPython,
   IconBrandTypescript,
   IconCpu,
