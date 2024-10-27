@@ -9,7 +9,7 @@ export function LandingHero() {
   return (
     <div className="w-full flex flex-col gap-5 z-20 relative">
       <div>
-        <div className="text-xs p-1 px-4 font-semibold border rounded-full max-w-max mb-1 bg-gray-900/30 backdrop-blur flex items-center gap-2">
+        <div className="text-xs p-1 px-4 font-semibold border rounded-full max-w-max mb-1 bg-gray-900/50 backdrop-blur flex items-center gap-2">
           <IconConfetti size={16} />
           V2 coming soon!
         </div>
@@ -39,17 +39,18 @@ export function LandingHero() {
         </div>
       </div>
       <div className="opacity-70 max-w-[80%] pl-5 border-l-3 ml-1">
-        Koxy AI is an AI-first Serverless low-code backend builder that allows
-        you to build and deploy any back-end tasks without writing any code in
-        minutes.
+        AI-powered serverless low-code platform that lets you build,
+        deploy, and scale backend tasks in minutes without writing a line of
+        code.
         <br />
         <br />
-        Use built-in nodes, build your own in TS/JS or Python, or let AI
-        generate custom nodes from your text/voice instructions.
+        Create workflows with powerful pre-built nodes, custom scripts in
+        TypeScript/Python, or let AI generate unique nodes from your voice or
+        text instructions.
         <br />
         <br />
-        Now you can deploy your flows to custom serverless containers with
-        dedicated CPUs, RAM, and GPUs!
+        Deploy your flows on dedicated, serverless containers with optimized
+        CPU, RAM, and GPU resources for seamless performance.
       </div>
 
       <Button.Root
@@ -57,9 +58,6 @@ export function LandingHero() {
         intent="secondary"
         className="border max-w-max"
         data-rounded="xlarge"
-        style={{
-          boxShadow: "0px 0px 5px 0px #c084fc",
-        }}
       >
         <Button.Label className="text-xs font-semibold">
           Join the waitlist
