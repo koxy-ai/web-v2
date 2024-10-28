@@ -5,6 +5,8 @@ import { Features } from "@/components/landing/features";
 import { Docs } from "@/components/landing/docs";
 import { Builder } from "@/components/landing/builder";
 import { Team } from "@/components/landing/team";
+import { Cta } from "@/components/landing/cta";
+import { Footer } from "@/components/landing/footer";
 
 export default function Home() {
   return (
@@ -29,14 +31,8 @@ export default function Home() {
         <Docs />
         <Team />
       </div>
-      <div className="bg-gray-900/20 w-full p-24 flex flex-col items-center justify-center text-center gap-3 z-20">
-        <div className="text-7xl landingSubtitle opacity-60 w-full z-10">V2 soon</div>
-        <h3 className="font-semibold text-4xl z-10">Join the waitlist</h3>
-        <div className="text-sm z-10">
-          Koxy V2 will be out really soon, join the waitlist now to get 20% off
-          during the first 3 months
-        </div>
-      </div>
+      <Cta />
+      <Footer />
     </>
   );
 }

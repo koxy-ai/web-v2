@@ -10,10 +10,6 @@ export function KoxyChip() {
         boxShadow: "0px 0px 0px 2px #141414",
       }}
     >
-      {/* <div className="absolute top-0 left-0 w-full h-full border-4 border-black rounded-xl z-10"></div> */}
-      {/* <div className="blur-sm">
-        <BorderBeam duration={12} delay={9} size={100} />
-      </div> */}
       <BorderBeam duration={12} delay={9} size={100} />
 
       <div className="w-3 h-3 rounded-full bg-purple-400 absolute top-4 right-3 border-2 z-20 animate-pulse"></div>

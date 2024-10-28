@@ -4,8 +4,11 @@ import Button from "../tailus-ui/Button";
 
 export function Team() {
   return (
-    <div className="w-full flex flex-col items-center pb-36 pt-12 z-10 border-t-1 border-border/40">
-      <div className="text-7xl landingSubtitle opacity-60 w-full">Team</div>
+    <div
+      id="teams"
+      className="w-full flex flex-col items-center p-10 pb-36 z-10 bg-gray-900/20 border border-b-1 border-border/70 rounded-b-xl mb-24"
+    >
+      <div className="text-7xl landingSubtitle opacity-60 w-full">Teams</div>
       <div className="w-full flex gap-6 mb-8 mt-2">
         <div className="text-3xl font-semibold w-full">
           Invite your entire team to work together

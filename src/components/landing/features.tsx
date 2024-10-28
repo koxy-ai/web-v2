@@ -60,7 +60,7 @@ export const CardLight = () => {
 const Card0 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 border-y-1  backdrop-blur relative overflow-hidden group"
+      className="h-full w-full p-4 border-y-1 border-l-1 rounded-tl-xl bg-gray-900/10 backdrop-blur relative overflow-hidden group border-border/60"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -88,7 +88,7 @@ const Card0 = () => {
       </div>
       <div className="font-semibold mb-4">When powerful meets simple</div>
       <div className="text-xs opacity-60">
-        Won't introduce no new strange workflows, languages, or workarounds.
+        {"Won't"} introduce no new strange workflows, languages, or workarounds.
         <br />
         <br />
         You can use the built-in nodes for simple flows, and build your custom
@@ -105,7 +105,7 @@ const Card0 = () => {
 const Card1 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-y-1 border-l-1 relative overflow-hidden flex flex-col"
+      className="h-full w-full p-4 pl-7 border-y-1 border-x-1 rounded-tr-xl bg-gray-900/10 relative overflow-hidden flex flex-col border-border/60"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -146,7 +146,7 @@ const Card1 = () => {
 const Card2 = () => {
   return (
     <ViewportAnimation
-      className="h-96 w-full p-8 relative overflow-hidden flex flex-col"
+      className="h-96 w-full p-8 relative overflow-hidden flex flex-col border-1 border-t-0 rounded-b-xl border-border/60"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -200,7 +200,7 @@ const Card2 = () => {
 const Card3 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 border-y-1 border-r-1 backdrop-blur relative overflow-hidden group"
+      className="h-full w-full p-4 border-b-1 border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -222,7 +222,7 @@ const Card3 = () => {
 const Card4 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-y-1 border-r-1 backdrop-blur relative overflow-hidden group"
+      className="h-full w-full p-4 pl-7 border-b-1 border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -244,7 +244,7 @@ const Card4 = () => {
 const Card5 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-y-1 backdrop-blur relative overflow-hidden group"
+      className="h-full w-full p-4 pl-7 border-b-1 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -266,7 +266,7 @@ const Card5 = () => {
 const Card6 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-b-1 border-r-1 backdrop-blur relative overflow-hidden group"
+      className="h-full w-full p-4 pl-7 border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -288,7 +288,7 @@ const Card6 = () => {
 const Card7 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-b-1 border-r-1 backdrop-blur relative overflow-hidden group"
+      className="h-full w-full p-4 pl-7 border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -310,7 +310,7 @@ const Card7 = () => {
 const Card8 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-b-1 backdrop-blur relative overflow-hidden group"
+      className="h-full w-full p-4 pl-7 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -333,12 +333,12 @@ export function Features() {
   return (
     <div className="w-full flex flex-col z-10 pb-36">
       <TextRevealByWord text="I hate no-code tools, so I built a good one" />
-      <div className="w-full flex items-center grid grid-cols-2">
+      <div id="features" className="w-full flex items-center grid grid-cols-2">
         <Card0 />
         <Card1 />
       </div>
       <Card2 />
-      <div className="w-full flex items-center grid grid-cols-3">
+      <div className="w-full flex items-center grid grid-cols-3 mt-36">
         <Card3 />
         <Card4 />
         <Card5 />

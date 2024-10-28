@@ -4,7 +4,10 @@ import Button from "../tailus-ui/Button";
 
 export function Docs() {
   return (
-    <div className="w-full flex flex-col items-center pb-36 pt-12 z-10 border-t-1 border-border/40">
+    <div
+      id="autodocs"
+      className="w-full flex flex-col items-center p-10 pb-36 z-10 bg-gray-900/20 border border-b-1 border-border/70"
+    >
       <div className="text-7xl landingSubtitle opacity-60 w-full">
         Auto Docs
       </div>
@@ -43,9 +46,14 @@ export function Docs() {
               <div className="text-xs text-purple-400">boolean</div>
             </div>
             <div className="mt-12 flex items-center justify-end">
-                <Button.Root size="xs" intent="gray" variant="soft" className="border">
-                    <Button.Label className="text-xs">Playground</Button.Label>
-                </Button.Root>
+              <Button.Root
+                size="xs"
+                intent="gray"
+                variant="soft"
+                className="border"
+              >
+                <Button.Label className="text-xs">Playground</Button.Label>
+              </Button.Root>
             </div>
           </div>
         </div>

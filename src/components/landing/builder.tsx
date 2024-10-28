@@ -16,7 +16,7 @@ export function Builder() {
   const api = newApiFromSample();
 
   return (
-    <div className="w-full flex flex-col items-center pb-36 z-10">
+    <div id="builder" className="w-full flex flex-col items-center p-10 pb-36 z-10 bg-gray-900/20 border border-b-0 border-border/70 rounded-t-xl">
       <div className="text-7xl landingSubtitle opacity-60 w-full">
         Visual Builder
       </div>
