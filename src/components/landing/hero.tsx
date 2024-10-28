@@ -2,8 +2,8 @@
 
 import WordRotate from "@/components/ui/word-rotate";
 import { IconChevronRight, IconConfetti } from "@tabler/icons-react";
-import { KoxyChip } from "./koxy-chip";
 import Button from "../tailus-ui/Button";
+import { Waitlist } from "./waitlist";
 
 export function LandingHero() {
   return (
@@ -39,33 +39,30 @@ export function LandingHero() {
         </div>
       </div>
       <div className="opacity-70 max-w-[80%] pl-5 border-l-3 ml-1">
-        AI-powered serverless low-code platform that lets you build,
-        deploy, and scale backend tasks in minutes without writing a line of
-        code.
+        AI-powered serverless low-code platform that lets you build, deploy, and
+        scale backend tasks in minutes without writing a line of code.
         <br />
         <br />
         Create workflows with powerful pre-built nodes, custom scripts in
         TypeScript/Python, or let AI generate unique nodes from your voice or
         text instructions.
-        <br />
-        <br />
-        Deploy your flows on dedicated, serverless containers with optimized
-        CPU, RAM, and GPU resources for seamless performance.
       </div>
 
-      <Button.Root
-        size="md"
-        intent="secondary"
-        className="border max-w-max"
-        data-rounded="xlarge"
-      >
-        <Button.Label className="text-xs font-semibold">
-          Join the waitlist
-        </Button.Label>
-        <Button.Icon type="trailing">
-          <IconChevronRight size={16} />
-        </Button.Icon>
-      </Button.Root>
+      <Waitlist>
+        <Button.Root
+          size="md"
+          intent="secondary"
+          className="border max-w-max"
+          data-rounded="xlarge"
+        >
+          <Button.Label className="text-xs font-semibold">
+            Join the waitlist
+          </Button.Label>
+          <Button.Icon type="trailing">
+            <IconChevronRight size={16} />
+          </Button.Icon>
+        </Button.Root>
+      </Waitlist>
     </div>
   );
 }

@@ -92,3 +92,8 @@ model Invite {
   role      String
   team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
+
+model Waitlist {
+  id    String @id @default(cuid())
+  email String @unique
+}

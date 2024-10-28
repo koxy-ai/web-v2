@@ -4,12 +4,20 @@ import { TextRevealByWord } from "@/components/ui/text-reveal";
 import ViewportAnimation from "@/components/viewport-animation";
 import {
   IconCheck,
+  IconCloud,
+  IconCode,
+  IconDatabase,
+  IconFolders,
   IconMicrophone,
+  IconPackages,
+  IconPointerBolt,
   IconRecharging,
   IconRocket,
   IconSend,
 } from "@tabler/icons-react";
 import { BorderBeam } from "@/components/ui/border-beam";
+import { FlickeringGrid } from "../ui/flick-background";
+import { RetroGrid } from "../ui/retro";
 
 export const CardLight = () => {
   return (
@@ -52,13 +60,13 @@ export const CardLight = () => {
 const Card0 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 border rounded-xl bg-gray-900/10 backdrop-blur relative overflow-hidden hover:bg-gray-900/20 hover:border-white/20 group"
+      className="h-full w-full p-4 border-y-1  backdrop-blur relative overflow-hidden group"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
-      on={{ opacity: 1, translateY: 0, transition: { delay: 0.2 } }}
+      on={{ opacity: 1, translateY: 0, transition: { delay: 0.4 } }}
     >
-      <CardLight />
+      {/* <CardLight /> */}
       <div className="w-full flex items-center justify-center relative h-36">
         <div className="size-[100] w-20 h-20 rounded-full relative blur-sm">
           <BorderBeam />
@@ -78,7 +86,7 @@ const Card0 = () => {
         />
         {/* <div className=""></div> */}
       </div>
-      <div className="font-semibold mb-4">Easy, yet powerful</div>
+      <div className="font-semibold mb-4">When powerful meets simple</div>
       <div className="text-xs opacity-60">
         Won't introduce no new strange workflows, languages, or workarounds.
         <br />
@@ -97,14 +105,14 @@ const Card0 = () => {
 const Card1 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 border rounded-xl bg-gray-900/10 backdrop-blur relative overflow-hidden hover:bg-gray-900/20 hover:border-white/20"
+      className="h-full w-full p-4 pl-7 border-y-1 border-l-1 relative overflow-hidden flex flex-col"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
       on={{ opacity: 1, translateY: 0, transition: { delay: 0.4 } }}
     >
-      <CardLight />
-      <div className="w-full flex flex-col items-center justify-center relative h-36">
+      {/* <CardLight /> */}
+      <div className="w-full flex flex-col items-center justify-center relative h-full">
         <IconRocket
           size={400}
           className="absolute text-white z-0 inset-0 opacity-[.03]"
@@ -122,14 +130,14 @@ const Card1 = () => {
           <div className="opacity-60">4 CPU cores - 8GB RAM</div>
         </div>
       </div>
-      <div className="font-semibold mb-4 mt-4">Truly Scalable</div>
+      <div className="font-semibold mb-4 mt-4">Scales to the moon</div>
       <div className="text-xs opacity-60">
         I mean it for real, you can configure your projects to run on custom
         containers with Serverless dedicated CPUs, RAM, and even GPUs!
         <br />
         <br />
-        You got built-in zero-downtime deploys, monitoring, auto-scaling, and
-        your containers only run when needed reducing idle time and costs.
+        Built-in zero-downtime deploys, monitoring, auto-scaling, Keep-warm and
+        timeout configs, all leading to less compute costs
       </div>
     </ViewportAnimation>
   );
@@ -138,18 +146,19 @@ const Card1 = () => {
 const Card2 = () => {
   return (
     <ViewportAnimation
-      className="h-96 w-full p-8 border rounded-xl bg-gray-900/10 backdrop-blur relative overflow-hidden hover:bg-gray-900/20 hover:border-white/20 flex flex-col"
+      className="h-96 w-full p-8 relative overflow-hidden flex flex-col"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
       on={{ opacity: 1, translateY: 0, transition: { delay: 0.4 } }}
     >
-      <CardLight />
-      <BorderBeam />
+      {/* <CardLight /> */}
+      {/* <BorderBeam /> */}
+      {/* <RetroGrid className="absolute top-0 left-0" /> */}
       <div className="w-full h-full flex items-center justify-center relative">
         <div className="flex flex-col w-[70%] relative rounded-xl overflow-hidden">
-          <BorderBeam />
-          <div className="w-full border rounded-xl p-3 pt-5 pl-5 flex flex-col bg-gray-900/20 backdrop-blur">
+          <div className="w-full border rounded-xl p-3 pt-5 pl-5 flex flex-col bg-gray-900/20 backdrop-blur relative">
+            <BorderBeam />
             <input
               placeholder="Generate new nodes or adjust any built-in node... how can I help
               you?"
@@ -166,7 +175,7 @@ const Card2 = () => {
           </div>
         </div>
       </div>
-      <div className="font-semibold mb-4">AI-Powered, in a useful way</div>
+      <div className="font-semibold mb-4">Chat with your backend. Let AI help you</div>
       <div className="text-xs opacity-60 flex flex-col gap-4">
         <div className="flex items-center gap-3">
           <IconCheck size={14} />
@@ -188,15 +197,162 @@ const Card2 = () => {
   );
 };
 
+const Card3 = () => {
+  return (
+    <ViewportAnimation
+      className="h-full w-full p-4 border-y-1 border-r-1 backdrop-blur relative overflow-hidden group"
+      once={false}
+      threshold={0.1}
+      off={{ opacity: 0, translateY: "20px" }}
+      on={{ opacity: 1, translateY: 0, transition: { delay: 0.2 } }}
+    >
+      <div className="w-10 h-10 p-2 flex items-center justify-center relative border rounded-xl bg-gray-900/20 relative overflow-hidden rotate-[-10deg] mb-4">
+        <IconDatabase size={17} />
+        <IconDatabase className="absolute blur-sm opacity-30" />
+      </div>
+      <div className="mb-2 text-sm">Built-in Database, or any database</div>
+      <div className="text-xs opacity-60">
+        Comes with an embedded distributed KV database. or conntect to your own
+        database (Supabase, Firebase, MongoDB, etc...)
+      </div>
+    </ViewportAnimation>
+  );
+};
+
+const Card4 = () => {
+  return (
+    <ViewportAnimation
+      className="h-full w-full p-4 pl-7 border-y-1 border-r-1 backdrop-blur relative overflow-hidden group"
+      once={false}
+      threshold={0.1}
+      off={{ opacity: 0, translateY: "20px" }}
+      on={{ opacity: 1, translateY: 0, transition: { delay: 0.2 } }}
+    >
+      <div className="w-10 h-10 p-2 flex items-center justify-center relative border rounded-xl bg-gray-900/20 relative overflow-hidden rotate-[-10deg] mb-4">
+        <IconFolders size={17} />
+        <IconFolders className="absolute blur-sm opacity-30" />
+      </div>
+      <div className="mb-2 text-sm">Unlimited Cloud Storage</div>
+      <div className="text-xs opacity-60">
+        Store files, assets, images, models parameters, and HF datasets, all for
+        free during the first year!
+      </div>
+    </ViewportAnimation>
+  );
+};
+
+const Card5 = () => {
+  return (
+    <ViewportAnimation
+      className="h-full w-full p-4 pl-7 border-y-1 backdrop-blur relative overflow-hidden group"
+      once={false}
+      threshold={0.1}
+      off={{ opacity: 0, translateY: "20px" }}
+      on={{ opacity: 1, translateY: 0, transition: { delay: 0.2 } }}
+    >
+      <div className="w-10 h-10 p-2 flex items-center justify-center relative border rounded-xl bg-gray-900/20 relative overflow-hidden rotate-[-10deg] mb-4">
+        <IconPackages size={17} />
+        <IconPackages className="absolute blur-sm opacity-30" />
+      </div>
+      <div className="mb-2 text-sm">Use any NPM or Pip package</div>
+      <div className="text-xs opacity-60">
+        You can import any NPM package, or install any Pip package to use in
+        your workflows, or use AI generated code.
+      </div>
+    </ViewportAnimation>
+  );
+};
+
+const Card6 = () => {
+  return (
+    <ViewportAnimation
+      className="h-full w-full p-4 pl-7 border-b-1 border-r-1 backdrop-blur relative overflow-hidden group"
+      once={false}
+      threshold={0.1}
+      off={{ opacity: 0, translateY: "20px" }}
+      on={{ opacity: 1, translateY: 0, transition: { delay: 0.2 } }}
+    >
+      <div className="w-10 h-10 p-2 flex items-center justify-center relative border rounded-xl bg-gray-900/20 relative overflow-hidden rotate-[-10deg] mb-4">
+        <IconPointerBolt size={17} />
+        <IconPointerBolt className="absolute blur-sm opacity-30" />
+      </div>
+      <div className="mb-2 text-sm">Real-time</div>
+      <div className="text-xs opacity-60">
+        Listen to database updates or signals in real-time, or push updates from
+        your front-end or workflows.
+      </div>
+    </ViewportAnimation>
+  );
+};
+
+const Card7 = () => {
+  return (
+    <ViewportAnimation
+      className="h-full w-full p-4 pl-7 border-b-1 border-r-1 backdrop-blur relative overflow-hidden group"
+      once={false}
+      threshold={0.1}
+      off={{ opacity: 0, translateY: "20px" }}
+      on={{ opacity: 1, translateY: 0, transition: { delay: 0.2 } }}
+    >
+      <div className="w-10 h-10 p-2 flex items-center justify-center relative border rounded-xl bg-gray-900/20 relative overflow-hidden rotate-[-10deg] mb-4">
+        <IconCloud size={17} />
+        <IconCloud className="absolute blur-sm opacity-30" />
+      </div>
+      <div className="mb-2 text-sm">Serverless & dynamic compute</div>
+      <div className="text-xs opacity-60">
+        Setup your custom container size (CPU, RAM, and GPU), Containers are
+        scaled up and down based on requests.
+      </div>
+    </ViewportAnimation>
+  );
+};
+
+const Card8 = () => {
+  return (
+    <ViewportAnimation
+      className="h-full w-full p-4 pl-7 border-b-1 backdrop-blur relative overflow-hidden group"
+      once={false}
+      threshold={0.1}
+      off={{ opacity: 0, translateY: "20px" }}
+      on={{ opacity: 1, translateY: 0, transition: { delay: 0.2 } }}
+    >
+      <div className="w-10 h-10 p-2 flex items-center justify-center relative border rounded-xl bg-gray-900/20 relative overflow-hidden rotate-[-10deg] mb-4">
+        <IconCode size={17} />
+        <IconCode className="absolute blur-sm opacity-30" />
+      </div>
+      <div className="mb-2 text-sm">Build with code</div>
+      <div className="text-xs opacity-60">
+        Use TS/JS or Python. Write your own nodes from scratch, or insert code
+        to any node inputs building dynamic flows.
+      </div>
+    </ViewportAnimation>
+  );
+};
+
 export function Features() {
   return (
-    <div className="w-full flex flex-col gap-4 z-10 pb-36">
+    <div className="w-full flex flex-col z-10 pb-36">
       <TextRevealByWord text="I hate no-code tools, so I built a good one" />
-      <div className="w-full flex items-center grid grid-cols-2 gap-4">
+      <div className="w-full flex items-center grid grid-cols-2">
         <Card0 />
         <Card1 />
       </div>
       <Card2 />
+      <div className="w-full flex items-center grid grid-cols-3">
+        <Card3 />
+        <Card4 />
+        <Card5 />
+      </div>
+      <div className="w-full flex items-center grid grid-cols-3">
+        <Card6 />
+        <Card7 />
+        <Card8 />
+      </div>
+      <div className="w-full grid grid-cols-4">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-1"></div>
+        </div>
+      </div>
     </div>
   );
 }

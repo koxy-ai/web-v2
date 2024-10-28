@@ -10,7 +10,7 @@ export function LandingNavbar() {
 
   return (
     <>
-      <div className="absolute top-0 left-0 w-full p-3 px-5 flex items-center justify-center z-50">
+      <div className="fixed top-0 left-0 w-full p-3 px-5 flex items-center justify-center z-50">
         <div className="p-2.5 border rounded-xl flex flex-col gap-3 px-4 bg-gray-950/40 backdrop-blur-lg w-[50%] transition-all duration-500">
           <div className="w-full flex items-center">
             <Link href="/" className="flex items-center gap-0.5 min-w-max">
@@ -49,7 +49,7 @@ export function LandingNavbar() {
         </div>
       </div>
 
-      <div className="absolute top-0 left-0 w-full p-3 px-5 flex items-center justify-center z-10">
+      <div className="fixed top-0 left-0 w-full p-3 px-5 flex items-center justify-center z-10">
         <div
           className="h-10 rounded-xl flex items-center px-3 w-[50%]"
           style={{

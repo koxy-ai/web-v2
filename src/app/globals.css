@@ -78,7 +78,13 @@
   } */
 
   html {
-    font-family: ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+  }
+
+  .landingSubtitle {
+    background: -webkit-linear-gradient(#ddd, #919191, #919191, #919191, transparent, transparent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 

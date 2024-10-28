@@ -3,6 +3,7 @@
 export function FeaturedOn() {
   return (
     <div className="w-full border-t-1 mt-24 text-center flex flex-col items-center justify-center pt-6 z-10">
+      <div className="text-7xl landingSubtitle opacity-60 w-full">Koxy V2</div>
       <div className="text-sm opacity-70 mb-5">
         Created by one person.. Featured on
       </div>
