@@ -3,10 +3,13 @@ import { Input, KoxyNode, StartNode } from "@/types/koxy";
 export class Typer {
   constructor() {}
 
-  static solveType(input: Input): string {
+  static solveType(input: Input, addUndefined: boolean = false): string {
     if (input.type !== "object") {
       if (input.type === "array") {
-        return `${Typer.solveType(input.items)}[]`;
+        let res = `${Typer.solveType(input.items)}[]`;
+        if (!input.required && addUndefined) res += " | undefiend";
+
+        return res;
       }
 
       return input.type;
@@ -23,6 +26,8 @@ export class Typer {
 
     type = type.slice(0, -1);
     type += "}";
+
+    if (!input.required && addUndefined) type += " | undefined";
 
     return type;
   }
@@ -97,16 +102,19 @@ export class Typer {
     }
 
     const [type] = value.split(":K::");
-
     return type;
   }
 
-  static readInputValue(value: string): string {
+  static readInputValue(value: string, code: boolean = false): string {
     if (!value.includes(":K::")) {
       return value;
     }
 
-    const [_type, content] = value.split(":K::");
+    let [type, content] = value.split(":K::");
+
+    if (code && type === "string") {
+      content = `"${content}"`;
+    }
 
     return content;
   }

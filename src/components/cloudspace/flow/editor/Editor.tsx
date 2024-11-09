@@ -30,6 +30,9 @@ interface Props {
   showDiagnostics?: ("info" | "error" | "warning")[];
   width?: string;
   height?: string;
+  setDiagnostic?: (diags: Diagnostic[]) => any;
+  className?: string;
+  updateDoc?: (doc: string) => any;
 }
 
 interface Doc {
@@ -46,10 +49,15 @@ export default function Editor({
   theme,
   showLineNumbers,
   fallback,
+  setDiagnostic,
+  updateDoc,
   showDiagnostics = [],
+  className,
+  width,
+  height
 }: Props) {
   const [readyState, setReady] = useState<boolean>(false);
-  const [errors, setErrors] = useState<string[]>([]);
+  const [errors, setErrorsState] = useState<string[]>([]);
   const ref = useRef<HTMLDivElement | null>(null);
   let contentLength = 0;
 
@@ -100,6 +108,10 @@ export default function Editor({
                     length: 0,
                   },
                 });
+
+                if (updateDoc) {
+                  updateDoc(doc.text.join("\n"));
+                }
               }
 
               contentLength = update.state.doc.length;
@@ -198,7 +210,7 @@ export default function Editor({
           ),
 
           linter(
-            async (view: EditorView): Promise<Diagnostic[]> => {
+            async (_view: EditorView): Promise<Diagnostic[]> => {
               try {
                 tsServer.postMessage({
                   event: "lint-request",
@@ -233,7 +245,7 @@ export default function Editor({
                   if (diag.to < 1) diag.to = 1;
 
                   if (diag.severity === "error") {
-                    setErrors((prev) => [...prev, diag.message]);
+                    setErrorsState((prev) => [...prev, diag.message]);
                   }
 
                   if (typeof diag.message === "object") {
@@ -244,6 +256,10 @@ export default function Editor({
                 }
 
                 console.log("LINTER", wanted);
+                if (setDiagnostic) {
+                  setDiagnostic(wanted);
+                }
+
                 return wanted;
               } catch (err) {
                 console.error("Error in linter:", err);
@@ -296,16 +312,16 @@ export default function Editor({
         </div>
       )}
       <div
-        className={`text-sans border rounded-lg resize-none z-20 overflow-hidden pr-6 bg-[#0f0f0f] ${
+        className={`relative text-sans resize-none pl-0 z-20 overflow-hidden pr-6 bg-[#0f0f0f] ${
           !readyState ? "hidden" : ""
-        }`}
+        } ${className}`}
         id="editor"
         ref={ref}
         style={{
-          maxWidth: "20vw",
-          width: "20rem",
-          maxHeight: "15rem",
-          height: "15rem",
+          maxWidth: width || "20vw",
+          width: width || "20rem",
+          maxHeight: height || "15rem",
+          height: height || "15rem",
         }}
       ></div>
     </>

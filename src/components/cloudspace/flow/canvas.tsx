@@ -81,12 +81,16 @@ export default function Canvas({ api, path, flow, updateFlow }: Props) {
           updateFlow(d);
         }}
       />
-      <div className="w-64 h-64">
-        {/* <Editor
+      <div className="w-full fixed flex items-center justify-center bottom-20">
+        <div className="border rounded-lg bg-gray-900/50">
+        <Editor
           replacer={generator}
           showLineNumbers={false}
           showDiagnostics={["error", "warning"]}
-        /> */}
+          className="rounded-lg"
+          width="24rem"
+        />
+        </div>
       </div>
     </div>
   );

@@ -25,10 +25,6 @@ export default function LoginSide() {
             />
           )}
         </div>
-        {/* <h3 className="text-2xl font-semibold z-10">Welcome to Koxy AI!</h3>
-        <p className="opacity-70">
-          Build your AI-powered back-end in minutes with no-code
-        </p> */}
         <div className="absolute top-0 left-0 dots1 z-0 opacity-50"></div>
       </div>
     </>

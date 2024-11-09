@@ -59,8 +59,8 @@ export const BASIC_SETUP: Extension = [
   highlightSpecialChars(),
   history(),
   foldGutter({
-    openText: "expand_more",
-    closedText: "chevron_right",
+    openText: "^",
+    closedText: ">",
   }),
   drawSelection(),
   EditorState.allowMultipleSelections.of(true),

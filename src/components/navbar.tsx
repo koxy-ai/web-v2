@@ -95,7 +95,10 @@ export default function Navbar({
 
   return (
     <div className="fixed top-0 left-0 w-full flex items-center z-30 bg-background border-b-1 border-border/50 h-14 px-4 before:fixed before:inset-0 before:-z-40 before:[background-image:url('/grainy-bg.svg')] before:opacity-[0.030] before:h-14">
-      <Link href={`/app/${openTeam.uniqueName}`} className="flex items-center gap-0.5 pt-1 rotate-[20deg]">
+      <Link
+        href={`/app/${openTeam.uniqueName}`}
+        className="flex items-center gap-0.5 pt-1 rotate-[20deg]"
+      >
         <div className="w-3 h-5 rounded-tl-[999px] border border-white/20 bg-gray-900/50"></div>
         <div className="w-3 h-5 rounded-br-[999px] border border-white/20 bg-gray-900/50 mb-2"></div>
       </Link>
@@ -402,47 +405,45 @@ export default function Navbar({
                       (team) => team.id === member.teamId
                     )!;
                     return (
-                      <>
-                        <Dropdown.Item
-                          key={team.id}
-                          className="min-h-max h-12 p-3"
-                          asChild
+                      <Dropdown.Item
+                        key={team.id}
+                        className="min-h-max h-12 p-3"
+                        asChild
+                      >
+                        <Link
+                          href={`/app/${team.uniqueName}`}
+                          className="flex items-center gap-3"
                         >
-                          <Link
-                            href={`/app/${team.uniqueName}`}
-                            className="flex items-center gap-3"
+                          <Avatar.Root
+                            size="xs"
+                            className="group-hover:rotate-[-10deg] transition-all"
                           >
-                            <Avatar.Root
-                              size="xs"
-                              className="group-hover:rotate-[-10deg] transition-all"
+                            <Avatar.Image
+                              src={team.avatar || "/NONE"}
+                              alt={team.name}
+                              className="rounded-md border"
+                            />
+                            <Avatar.Fallback
+                              variant="soft"
+                              intent="gray"
+                              className="rounded-md border"
                             >
-                              <Avatar.Image
-                                src={team.avatar || "/NONE"}
-                                alt={team.name}
-                                className="rounded-md border"
-                              />
-                              <Avatar.Fallback
-                                variant="soft"
-                                intent="gray"
-                                className="rounded-md border"
-                              >
-                                {team.name?.substring(0, 1)}
-                              </Avatar.Fallback>
-                            </Avatar.Root>
-                            <div>
-                              <div className="text-xs">{team.name}</div>
-                              <div className="text-xs text-gray-400">
-                                {member.role.toLowerCase()}
-                              </div>
+                              {team.name?.substring(0, 1)}
+                            </Avatar.Fallback>
+                          </Avatar.Root>
+                          <div>
+                            <div className="text-xs">{team.name}</div>
+                            <div className="text-xs text-gray-400">
+                              {member.role.toLowerCase()}
                             </div>
-                            {currentTeam === team.uniqueName && (
-                              <Dropdown.Icon>
-                                <IconCheck size={14} className="opacity-50" />
-                              </Dropdown.Icon>
-                            )}
-                          </Link>
-                        </Dropdown.Item>
-                      </>
+                          </div>
+                          {currentTeam === team.uniqueName && (
+                            <Dropdown.Icon>
+                              <IconCheck size={14} className="opacity-50" />
+                            </Dropdown.Icon>
+                          )}
+                        </Link>
+                      </Dropdown.Item>
                     );
                   })}
                   <SeparatorRoot dashed className="my-3" />

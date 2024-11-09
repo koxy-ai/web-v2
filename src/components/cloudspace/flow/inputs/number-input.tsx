@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NodeSimpleInputProps } from "../types";
 import {
   Tooltip,
@@ -17,7 +17,7 @@ export default function NumberInput({
   input,
 }: NodeSimpleInputProps) {
   const [inputV, setInputV] = useState(value);
-  const warn = input[0].required && (!value || value.length < 1);
+  const [warn, setWarn] = useState(input[0].required && (!value || value.length < 1));
 
   const updateNum = (v: number) => {
     if (input[2].type !== "number") return;
@@ -25,6 +25,7 @@ export default function NumberInput({
     if (typeof input[2].min === "number") {
       if (v < input[2].min) {
         updateValue(input[2].min + "");
+        setWarn(true);
         return;
       }
     }
@@ -32,6 +33,7 @@ export default function NumberInput({
     if (typeof input[2].max === "number") {
       if (v > input[2].max) {
         updateValue(input[2].max + "");
+        setWarn(true)
         return;
       }
     }
@@ -66,7 +68,9 @@ export default function NumberInput({
             <TooltipTrigger>
               <IconAlertTriangleFilled className="w-3 h-3 text-orange-400" />
             </TooltipTrigger>
-            <TooltipContent>This value is required</TooltipContent>
+            <TooltipContent>
+              {input[0].required ? "This value is required" : "Invalid value"}
+            </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       )}

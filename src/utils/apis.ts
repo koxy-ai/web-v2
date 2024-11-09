@@ -65,7 +65,7 @@ export const sampleRoute = (
         [
           {
             index: 1,
-            type: "string",
+            type: "any",
             key: "body",
             label: "Body",
             required: false,

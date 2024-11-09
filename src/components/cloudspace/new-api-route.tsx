@@ -44,23 +44,35 @@ export default function NewApiRoute({
         return;
       }
 
-      const existRoute = api.flows[path];
+      let validPath = `${path}`;
+
+      while (validPath.startsWith("/")) {
+        validPath = validPath.substring(1);
+      }
+
+      validPath = `/${validPath}`;
+
+      while (validPath.endsWith("/")) {
+        validPath = validPath.slice(0, -1);
+      }
+
+      const existRoute = api.flows[validPath];
       if (existRoute) {
         const sameMethod = existRoute.find((route) => route.method === method);
         if (sameMethod) {
-          toast.error(`Route already exists: ${method} ${path}`);
+          toast.error(`Route already exists: ${method} ${validPath}`);
           return;
         }
       }
 
-      const newRoute = sampleRoute(path, method, name);
+      const newRoute = sampleRoute(validPath, method, name);
 
       const newProject = update({
         type: "api",
         data: {
           flows: {
             ...(api.flows || {}),
-            [path]: [...(api.flows?.[path] || []), newRoute],
+            [validPath]: [...(api.flows?.[validPath] || []), newRoute],
           },
         },
       });
@@ -70,10 +82,10 @@ export default function NewApiRoute({
       closeTab("new api");
       openTab(`${newRoute.name}`, (args: CompCall) => <FlowMain {...args} />, {
         flow: newRoute,
-        path,
+        path: validPath,
       });
 
-      toast.success(`Route created: ${method} ${path}`);
+      toast.success(`Route created: ${method} ${validPath}`);
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong");

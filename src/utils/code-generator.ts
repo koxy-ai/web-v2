@@ -21,17 +21,7 @@ export class CodeGenerator {
 
   private generateDb() {
     const collections = this.store.getCollections();
-
-    let names = this.store
-      .getDBCollectionsNames()
-      .map((c) => `"${c}"`)
-      .join("|");
-
-    if (names.length < 1) {
-      names = "any";
-    }
-
-    this.code = `type KVCollectionsNames = ${names};\n${this.code}`;
+    this.code = `type KVCollectionsNames = keyof KVCollections;\n${this.code}`;
 
     let collectionsCode = "interface KVCollections {\n";
 
@@ -108,7 +98,7 @@ export class CodeGenerator {
     if (next) this.generateNodeResults(next, "down");
   }
 
-  generateContext(node: KoxyNode) {
+  generateContext(node: KoxyNode | StartNode) {
     console.log("Generating context for node:", node.name);
     this.code = "interface KoxyType {\n";
 
@@ -117,7 +107,7 @@ export class CodeGenerator {
 
     this.generateLogger();
     this.generateDb();
-    this.generateResults(node);
+    if (node.type !== "start") this.generateResults(node);
 
     this.code += "};\n";
 
