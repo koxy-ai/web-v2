@@ -24,7 +24,7 @@ import {
 
 export function HeroSide() {
   return (
-    <div className="w-full flex items-center gap-3">
+    <div className="w-full flex flex-col md:flex-row md:items-center gap-10 md:gap-3">
       <LandingHero />
       <div className="w-72 flex flex-col z-20 items-center justify-center">
         <div className="flex items-center gap-5">

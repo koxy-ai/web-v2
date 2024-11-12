@@ -12,7 +12,7 @@ export function LandingNavbar() {
   return (
     <>
       <div className="absolute top-0 left-0 w-full p-3 px-5 flex items-center justify-center z-50">
-        <div className="p-2.5 border rounded-xl flex flex-col gap-3 px-4 bg-gray-950/80 backdrop-blur-lg w-[50%] transition-all duration-500">
+        <div className="p-2.5 border rounded-xl flex flex-col gap-3 px-4 bg-gray-950/80 backdrop-blur-lg w-[95%] md:w-[50%] transition-all duration-500">
           <div className="w-full flex items-center">
             <Link href="/" className="flex items-center gap-0.5 min-w-max">
               <div className="w-2.5 h-4 rounded-tl-[999px] border border-white/20  bg-white"></div>

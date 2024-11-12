@@ -4,14 +4,14 @@ export function FeaturedOn() {
   return (
     <div className="w-full border-t-1 mt-24 text-center flex flex-col items-center justify-center pt-6 z-10">
       <div className="text-7xl landingSubtitle opacity-60 w-full">Koxy V2</div>
-      <div className="text-sm opacity-70 mb-5">
+      <div className="text-sm opacity-70 mb-5 hidden md:blcok">
         Created by one person.. Featured on
       </div>
-      <div className="w-full flex items-center justify-center gap-5">
+      <div className="w-full hidden md:flex items-center justify-center gap-5">
         <a
           href="https://www.producthunt.com/posts/koxy-ai?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-koxy&#0045;ai"
           target="_blank"
-          className="bg-white flex items-center px-2 pr-4 font-semibold gap-2 text-gray-400 opacity-80"
+          className="bg-white flex items-center px-2 pr-4 font-semibold gap-2 text-gray-400 opacity-80 text-sm md:text-base"
           style={{
             height: "40px"
           }}
@@ -22,7 +22,7 @@ export function FeaturedOn() {
             className="grayscale"
             src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/product-hunt-logo-icon.png"
           />
-          ProductHunt
+          <div className="hidden md:block">ProductHunt</div>
         </a>
         <a
           href="https://theresanaiforthat.com/ai/koxy-ai/?ref=featured&v=437568"

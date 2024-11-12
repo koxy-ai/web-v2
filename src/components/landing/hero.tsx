@@ -14,7 +14,7 @@ export function LandingHero() {
           V2 coming soon!
         </div>
         <div
-          className="text-4xl"
+          className="text-2xl md:text-4xl"
           style={{
             fontWeight: "400",
           }}

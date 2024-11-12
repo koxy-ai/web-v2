@@ -6,8 +6,8 @@ import { Waitlist } from "./waitlist";
 
 export function Footer() {
   return (
-    <div className="w-full border-t-1 bg-gray-900/20 py-10 px-64 flex flex-col z-20">
-      <div className="w-full flex justify-between z-10 gap-10">
+    <div className="w-full border-t-1 bg-gray-900/20 py-10 px-10 md:px-64 flex flex-col z-20">
+      <div className="w-full flex flex-col md:flex-row md:justify-between z-10 gap-10">
         <div className="flex flex-col gap-5 min-w-64">
           <Link href="/" className="flex items-center gap-0.5 min-w-max">
             <div className="w-3 h-5 rounded-tl-[999px] border border-white/20  bg-white"></div>

@@ -7,9 +7,9 @@ import { IconChevronRight } from "@tabler/icons-react";
 
 export function Cta() {
   return (
-    <div className=" w-full p-24 flex flex-col items-center justify-center text-center z-20 relative">
+    <div className=" w-full p-24 px-10 md:px-24 flex flex-col items-center justify-center text-center z-20 relative">
       <RetroGrid />
-      <div className="text-7xl landingSubtitle opacity-60 w-full z-10">
+      <div className="text-5xl md:text-7xl landingSubtitle opacity-60 w-full z-10">
         V2 soon
       </div>
       <div className="text-sm z-10 mb-4 opacity-60">

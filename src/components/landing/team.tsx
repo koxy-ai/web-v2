@@ -8,9 +8,9 @@ export function Team() {
       id="teams"
       className="w-full flex flex-col items-center p-10 pb-36 z-10 bg-gray-900/20 border border-b-1 border-border/70 rounded-b-xl mb-24"
     >
-      <div className="text-7xl landingSubtitle opacity-60 w-full">Teams</div>
-      <div className="w-full flex gap-6 mb-8 mt-2">
-        <div className="text-3xl font-semibold w-full">
+      <div className="text-4xl md:text-7xl landingSubtitle opacity-60 w-full">Teams</div>
+      <div className="w-full flex flex-col md:flex-row gap-6 mb-8 mt-2">
+        <div className="text-xl md:text-3xl font-semibold w-full">
           Invite your entire team to work together
         </div>
         <div className="w-full text-xs opacity-70">

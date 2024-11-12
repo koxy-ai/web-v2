@@ -23,7 +23,7 @@ export default function Home() {
         className="absolute -top-4 left-0 w-full inset-0 z-0 opacity-60"
       />
 
-      <div className="w-full px-64 flex flex-col items-center z-20 pt-36 min-h-screen">
+      <div className="w-full px-10 md:px-64 flex flex-col items-center z-20 pt-36 min-h-screen">
         <HeroSide />
         <FeaturedOn />
         <Features />

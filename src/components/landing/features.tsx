@@ -60,7 +60,7 @@ export const CardLight = () => {
 const Card0 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 border-y-1 border-l-1 rounded-tl-xl bg-gray-900/10 backdrop-blur relative overflow-hidden group border-border/60"
+      className="h-full w-full p-4 border-y-1 border-l-1 border-r-1 md:border-r-0 rounded-t-xl md:rounded-tr-none bg-gray-900/10 backdrop-blur relative overflow-hidden group border-border/60"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -105,14 +105,14 @@ const Card0 = () => {
 const Card1 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-y-1 border-x-1 rounded-tr-xl bg-gray-900/10 relative overflow-hidden flex flex-col border-border/60"
+      className="h-full w-full p-4 pl-7 border-y-1 border-x-1 md:rounded-tr-xl bg-gray-900/10 relative overflow-hidden flex flex-col border-border/60"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
       on={{ opacity: 1, translateY: 0, transition: { delay: 0.4 } }}
     >
       {/* <CardLight /> */}
-      <div className="w-full flex flex-col items-center justify-center relative h-full">
+      <div className="w-full flex flex-col items-center justify-center relative h-48 md:h-full">
         <IconRocket
           size={400}
           className="absolute text-white z-0 inset-0 opacity-[.03]"
@@ -146,7 +146,7 @@ const Card1 = () => {
 const Card2 = () => {
   return (
     <ViewportAnimation
-      className="h-96 w-full p-8 relative overflow-hidden flex flex-col border-1 border-t-0 rounded-b-xl border-border/60"
+      className="md:h-96 w-full p-8 relative overflow-hidden flex flex-col border-1 border-t-0 rounded-b-xl border-border/60"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -156,7 +156,7 @@ const Card2 = () => {
       {/* <BorderBeam /> */}
       {/* <RetroGrid className="absolute top-0 left-0" /> */}
       <div className="w-full h-full flex items-center justify-center relative">
-        <div className="flex flex-col w-[70%] relative rounded-xl overflow-hidden">
+        <div className="flex flex-col w-full md:w-[70%] relative rounded-xl overflow-hidden">
           <div className="w-full border rounded-xl p-3 pt-5 pl-5 flex flex-col bg-gray-900/20 backdrop-blur relative">
             <BorderBeam />
             <input
@@ -175,7 +175,7 @@ const Card2 = () => {
           </div>
         </div>
       </div>
-      <div className="font-semibold mb-4">Chat with your backend. Let AI help you</div>
+      <div className="font-semibold mb-4 mt-6 md:mt-0">Chat with your backend. Let AI help you</div>
       <div className="text-xs opacity-60 flex flex-col gap-4">
         <div className="flex items-center gap-3">
           <IconCheck size={14} />
@@ -200,7 +200,7 @@ const Card2 = () => {
 const Card3 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 border-b-1 border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
+      className="h-full w-full p-4 border-b-1 md:border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -222,7 +222,7 @@ const Card3 = () => {
 const Card4 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-b-1 border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
+      className="h-full w-full p-4 pl-7 border-b-1 md:border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -266,7 +266,7 @@ const Card5 = () => {
 const Card6 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
+      className="h-full w-full p-4 pl-7 border-b-1 md:border-r-1 md:border-b-0 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -288,7 +288,7 @@ const Card6 = () => {
 const Card7 = () => {
   return (
     <ViewportAnimation
-      className="h-full w-full p-4 pl-7 border-r-1 backdrop-blur relative overflow-hidden group border-dashed"
+      className="h-full w-full p-4 pl-7 border-b-1 md:border-r-1 md:border-b-0 backdrop-blur relative overflow-hidden group border-dashed"
       once={false}
       threshold={0.1}
       off={{ opacity: 0, translateY: "20px" }}
@@ -333,17 +333,17 @@ export function Features() {
   return (
     <div className="w-full flex flex-col z-10 pb-36">
       <TextRevealByWord text="I hate no-code tools, so I built a good one" />
-      <div id="features" className="w-full flex items-center grid grid-cols-2">
+      <div id="features" className="w-full flex items-center grid grid-cols-1 md:grid-cols-2">
         <Card0 />
         <Card1 />
       </div>
       <Card2 />
-      <div className="w-full flex items-center grid grid-cols-3 mt-36">
+      <div className="w-full flex items-center grid grid-cols-1 md:grid-cols-3 mt-36">
         <Card3 />
         <Card4 />
         <Card5 />
       </div>
-      <div className="w-full flex items-center grid grid-cols-3">
+      <div className="w-full flex items-center grid grid-cols-1 md:grid-cols-3">
         <Card6 />
         <Card7 />
         <Card8 />
